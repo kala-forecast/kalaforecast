@@ -1,22 +1,35 @@
 import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import LandingCarousel from '../components/LandingCarousel';
+import { useTracker } from 'meteor/react-meteor-data';
 
 /* A simple static component to render some text for the landing page. */
-const Landing = () => (
-  <Container id={PAGE_IDS.LANDING} className="py-3">
+const Landing = () => {
+  const { currentUser } = useTracker(() => ({
+      currentUser: Meteor.user() ? Meteor.user().username : '',
+    }), []);
+
+  return (
+  <Container id={PAGE_IDS.LANDING} className="py-4">
     <Row className="align-middle text-center">
       <Col xs={4}>
-        <Image roundedCircle src="/images/meteor-logo.png" width="150px" />
+        <Image roundedCircle src="/images/kala-forcast-logo.png" width="65%" />
       </Col>
-
-      <Col xs={8} className="d-flex flex-column justify-content-center">
-        <h1>Welcome to this template</h1>
-        <p>Now get to work and modify this app!</p>
+      <Col xs={8} className="landing d-flex flex-column justify-content-center">
+        <h1 className="py-4">Welcome to Kālā Forcast!</h1>
+        <h6 className="py-1">Kālā Forecast intends to provide a user-friendly and integrated framework for fiscal sustainability models.</h6>
+        <h6 className="py-1">This web based platform will provide information on sustainability models, stress tests, financial compilations, and modeled scenarios, as well a dashboard that displays forecasting outcome charts.</h6>
       </Col>
-
+      { currentUser === '' ? ([
+        <hr className="my-5"/>,
+        <h2 className="my-5">Create an account or log-in to begin</h2>
+      ]) : (
+        <LandingCarousel />
+      )}
     </Row>
   </Container>
-);
+  )
+};
 
 export default Landing;

@@ -1,9 +1,9 @@
 /* Use Open Sans as the default sans serif font. */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700");
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 /* Set up some CSS variables to theme the application. */
 :root {
-  --matr-navbar-bg: #ECECEC;
+  --matr-navbar-bg: rgba(84,168,197,0.5);
   --matr-navbar-bg-rgb: 236, 236, 236;
 }
 
@@ -20,6 +20,25 @@ body {
 }
 
 /* Define custom styles */
+.navbar {
+  background-color: var(--matr-navbar-bg);
+  font-family: 'Roboto 600', sans-serif;
+}
+
+.landing {
+  font-family: 'Roboto 200', sans-serif;
+}
+
+.landing-carousel {
+  background-color: var(--matr-navbar-bg);
+  width: 100%;
+}
+
+.footer, .nav-link {
+  background-color: var(--matr-navbar-bg);
+  font-family: 'Roboto 200', sans-serif;
+}
+
 .gray-background {
   background-color: var(--bs-gray-200);
   color: var(--bs-dark);
