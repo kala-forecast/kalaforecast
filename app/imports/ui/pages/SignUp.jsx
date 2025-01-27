@@ -67,7 +67,7 @@ const SignUp = () => {
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
                 Role
-                <Form.Select className="mb-3">
+                <Form.Select id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} className="mb-3">
                   <option>Select a Role</option>
                   <option value="analyst">Analyst</option>
                   <option value="executive">Executive</option>
