@@ -13,4 +13,5 @@ export const PAGE_IDS = {
   SIGN_UP: 'sign-up',
   SUSTAINABILITY_MODEL: 'sustainability-model',
   STRESS_TEST: 'stress-test',
+  GRAPH_PLACEHOLDER: 'graph-placeholder',
 };
