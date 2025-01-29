@@ -10,7 +10,7 @@ const Footer = () => {
           Department of Information and Computer Sciences <br />
           University of Hawaii<br />
           Honolulu, HI 96822 <br />
-          <a href="https://kala-forecast.github.io/">GitHub Page</a>
+          <a id="project-webpage" href="https://kala-forecast.github.io/">GitHub Page</a>
         </Col>
       </Container>
     </footer>
