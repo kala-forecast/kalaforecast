@@ -21,6 +21,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ManageDatabase from '../pages/ManageDatabase';
 import SustainabilityModel from '../pages/SustainabilityModel';
 import StressTest from '../pages/StressTest';
+import GraphPlaceholder from '../pages/GraphPlaceholder';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/sustainability-model" element={<ProtectedRoute><SustainabilityModel /></ProtectedRoute>} />
           <Route path="/stress-test" element={<ProtectedRoute><StressTest/></ProtectedRoute>} />
+          <Route path="/graph-placeholder" element={<ProtectedRoute><GraphPlaceholder /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
