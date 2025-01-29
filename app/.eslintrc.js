@@ -52,4 +52,7 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     'react/no-array-index-key': 'off',
   },
+  globals: {
+    Meteor: 'readonly',
+  },
 };

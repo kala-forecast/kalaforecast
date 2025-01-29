@@ -3,6 +3,9 @@ export const COMPONENT_IDS = {
   MANGAGE_DATABASE_DUMP: 'manage-database-dump',
   NAVBAR_ADD_STUFF: 'navbar-add-stuff',
   NAVBAR_LIST_STUFF: 'navbar-list-stuff',
+  NAVBAR_SUSTAINABILITY_MODEL: 'navbar-sustainability-model',
+  NAVBAR_STRESS_TEST: 'navbar-stress-test',
+  NAVBAR_GRAPH_PLACEHOLDER: 'navbar-graph-placeholder',
   NAVBAR_LIST_STUFF_ADMIN: 'navbar-list-stuff-admin',
   NAVBAR_CURRENT_USER: 'navbar-current-user',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
@@ -20,5 +23,6 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_LAST_NAME: 'sign-up-form-last-name',
   SIGN_UP_FORM_EMAIL: 'sign-up-form-email',
   SIGN_UP_FORM_PASSWORD: 'sign-up-form-password',
+  SIGN_UP_FORM_ROLE: 'sign-up-form-role',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
 };
