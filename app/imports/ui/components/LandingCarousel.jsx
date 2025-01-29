@@ -11,7 +11,7 @@ const LandingCarousel = () => {
 
   return (
     <div className="landing-carousel p-4 my-5">
-        <h1>Featured pages:</h1>
+      <h1>Featured pages:</h1>
       <Carousel activeIndex={index} onSelect={handleSelect} className="carousel-dark">
         <Carousel.Item>
           <div>
