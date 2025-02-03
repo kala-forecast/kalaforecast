@@ -1,6 +1,8 @@
 export const COMPONENT_IDS = {
   LIST_STUFF_EDIT: 'list-stuff-edit',
   MANGAGE_DATABASE_DUMP: 'manage-database-dump',
+  NAVBAR_WORKPAPERS: 'workpapers',
+  NAVBAR_EDIT_WORKPAPER: 'edit-workpaper',
   NAVBAR_ADD_STUFF: 'navbar-add-stuff',
   NAVBAR_LIST_STUFF: 'navbar-list-stuff',
   NAVBAR_SUSTAINABILITY_MODEL: 'navbar-sustainability-model',
@@ -15,6 +17,7 @@ export const COMPONENT_IDS = {
   NAVBAR_LOGIN_DROPDOWN_SIGN_UP: 'navbar-login-dropdown-sign-up',
   NAVBAR_MANAGE_DROPDOWN: 'navbar-manage-dropdown',
   NAVBAR_MANAGE_DROPDOWN_DATABASE: 'navbar-manage-dropdown-database',
+  NAVBAR_WORKPAPERS_DROPDOWN: 'navbar-workpapers-dropdown',
   NAVBAR_SIGN_OUT: 'navbar-sign-out',
   SIGN_IN_FORM_EMAIL: 'sign-in-form-email',
   SIGN_IN_FORM_PASSWORD: 'sign-in-form-password',
