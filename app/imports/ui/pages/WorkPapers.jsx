@@ -24,7 +24,14 @@ const WorkPapers = () => (
             <th scope="row">52,100</th>
           </tr>
           <tr>
-            <th scope="row">1</th>
+            <th scope="row">2</th>
+            <th scope="row">50,000</th>
+            <th scope="row">50,000</th>
+            <th scope="row">2,100</th>
+            <th scope="row">52,100</th>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
             <th scope="row">50,000</th>
             <th scope="row">50,000</th>
             <th scope="row">2,100</th>
