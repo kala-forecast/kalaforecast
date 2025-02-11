@@ -1,9 +1,9 @@
 import { Selector, t } from 'testcafe';
 import { PAGE_IDS } from '../imports/ui/utilities/PageIDs';
 
-class StressTestPage {
+class EditWorkpaperPage {
   constructor() {
-    this.pageId = `#${PAGE_IDS.STRESS_TEST}`;
+    this.pageId = `#${PAGE_IDS.EDIT_WORKPAPER}`;
     this.pageSelector = Selector(this.pageId);
   }
 
@@ -15,4 +15,4 @@ class StressTestPage {
   }
 }
 
-export const stressTestPage = new StressTestPage();
+export const editWorkpaperPage = new EditWorkpaperPage();
