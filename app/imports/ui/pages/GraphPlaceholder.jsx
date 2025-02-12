@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Table, Col, Row } from 'react-bootstrap';
-import { Chart as ChartJS } from 'chart.js/auto';
+// import { Chart as ChartJS } from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
@@ -59,7 +59,7 @@ const GraphPlaceholder = () => {
             size: 12,
             weight: 'bold', // set to bold cuz normal font too hard to see
           },
-          padding: 10, // padding so the value ticks dont smash into the graph/x label
+          padding: 10, // padding so the value ticks don't smash into the graph/x label
         },
         title: {
           font: {
@@ -80,7 +80,7 @@ const GraphPlaceholder = () => {
                 style: 'currency',
                 currency: 'USD',
               },
-            )}`; // y axis currency formatting
+            )}`; // y-axis currency formatting
           },
           min: 0,
           maxTicksLimit: 6,
