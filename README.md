@@ -6,4 +6,4 @@ This web based platform will provide information on sustainability models, stres
 Check out our [home page](https://kala-forecast.github.io/) for more information about this project.
 
 ## CI Status
-[![ci-meteor-application-template-production](https://github.com/ics-software-engineering/meteor-application-template-production/actions/workflows/ci.yml/badge.svg)](https://github.com/ics-software-engineering/meteor-application-template-production/actions/workflows/ci.yml)
+<img src="https://github.com/kala-forecast/kalaforecast/workflows/ci-kala-forecast-production/badge.svg" alt="CI Badge">
