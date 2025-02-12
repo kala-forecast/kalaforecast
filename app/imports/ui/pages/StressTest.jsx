@@ -1,6 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const ToggleSwitch = ({ value, onChange }) => {
+  return (
+    <button
+      type="button"
+      onClick={onChange}
+      className={`btn ${value ? 'btn-success' : 'btn-secondary'} rounded-pill`}
+      style={{ width: '120px' }}  // Wider button
+    >
+      {value ? 'On' : 'Off'}
+    </button>
+  );
+};
 
 const FiscalSustainabilityModel = () => {
+  const [toggleStates, setToggleStates] = useState({});
+
+  const handleToggleChange = (index) => {
+    setToggleStates((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
   const data = [
     {
       stress: 'Stress 1',
@@ -45,19 +68,29 @@ const FiscalSustainabilityModel = () => {
   ];
 
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-bold">Fiscal Sustainability Model (SM) Analysis</h2>
-      <h4 className="text-md font-semibold">Stress Test Analysis</h4>
-      <p className="mb-4">Choose 0 = no stress test, 1 = implement stress test</p>
-      <div className="overflow-auto max-h-96">
-        <table className="w-full border-collapse border border-gray-300">
-          <thead className="sticky top-0 bg-green-200 z-10">
+    <div className="container p-4">
+      <h2 className="mb-2">Fiscal Sustainability Model (SM) Analysis</h2>
+      <h4 className="mb-1 text-success">Stress Test Analysis</h4>
+      <p className="mb-4">Toggle On = implement stress test, Off = no stress test</p>
+      <div className="table-responsive">
+        <table className="table table-bordered">
+          {/* Define column widths */}
+          <colgroup>
+            <col style={{ width: '100px' }} /> {/* Stress Test column */}
+            <col style={{ width: '250px' }} /> {/* Scenario column */}
+            <col style={{ minWidth: '200px' }} /> {/* Decision Priority: toggle/button & label */}
+            <col style={{ minWidth: '100px' }} /> {/* Decision Priority: subLabel */}
+            {[...Array(12).keys()].map((i) => (
+              <col key={i} style={{ width: '60px' }} /> // Forecast columns
+            ))}
+          </colgroup>
+          <thead className="thead-light">
             <tr>
-              <th className="border border-gray-300 p-2">Stress Test</th>
-              <th className="border border-gray-300 p-2">Scenario</th>
-              <th className="border border-gray-300 p-2 w-72" colSpan={2}>Decision Priorities</th>
+              <th style={{ backgroundColor: '#ADD8E6', color: 'white' }}>Stress Test</th>
+              <th>Scenario</th>
+              <th colSpan={2} style={{ minWidth: '300px' }}>Decision Priorities</th>
               {[...Array(12).keys()].map((i) => (
-                <th key={i} className="border border-gray-300 p-2">Forecast {2025 + i}</th>
+                <th key={i}>Forecast {2025 + i}</th>
               ))}
             </tr>
           </thead>
@@ -65,27 +98,36 @@ const FiscalSustainabilityModel = () => {
             {data.map((row, index) => (
               <React.Fragment key={index}>
                 {row.priorities.map((priority, pIndex) => (
-                  <tr key={`${index}-${pIndex}`} className={index % 2 === 0 ? 'bg-blue-200' : 'bg-white'}>
+                  <tr key={`${index}-${pIndex}`}>
                     {pIndex === 0 && (
                       <>
-                        <td className="border border-gray-300 p-2" rowSpan={2}>{row.stress}</td>
-                        <td className="border border-gray-300 p-2" rowSpan={2}>{row.scenario}</td>
+                        <td rowSpan={2} style={{ backgroundColor: '#ADD8E6', color: 'white' }}>
+                          {row.stress}
+                        </td>
+                        <td rowSpan={2}>{row.scenario}</td>
                       </>
                     )}
-                    <td className="border border-gray-300 p-2 w-72">
-                      <div className="flex items-center">
-                        <span className="font-semibold mr-2">{priority.label}</span>
-                        <select className="text-center ml-auto">
-                          <option value="0">0</option>
-                          <option value="1">1</option>
-                        </select>
+                    <td style={{ minWidth: '200px' }}>
+                      <div className="text-center">
+                        {/* Button on top */}
+                        <ToggleSwitch
+                          value={toggleStates[`${index}-${pIndex}`] || false}
+                          onChange={() => handleToggleChange(`${index}-${pIndex}`)}
+                        />
+                        {/* Label text below */}
+                        <span className="d-block font-weight-bold mt-2">
+                          {priority.label}
+                        </span>
                       </div>
                     </td>
-                    <td className="border border-gray-300 p-2">{priority.subLabel}</td>
+                    <td style={{ minWidth: '100px' }}>{priority.subLabel}</td>
                     {[...Array(12).keys()].map((_, i) => (
-                      // eslint-disable-next-line jsx-a11y/control-has-associated-label
-                      <td key={i} className="border border-gray-300 p-2">
-                        <input type="text" className="w-full text-center" />
+                      <td key={i} className="text-center">
+                        <input
+                          type="text"
+                          className="form-control text-center mx-auto"
+                          style={{ width: '100px' }}
+                        />
                       </td>
                     ))}
                   </tr>
