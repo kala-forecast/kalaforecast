@@ -24,6 +24,7 @@ test('Test that landing page work', async () => {
   await landingPage.isDisplayed();
   await landingPage.checkCarousel();
   await landingPage.checkFooterLink();
+  await navBar.logout();
 });
 
 test('Test that signin and signout work', async () => {
