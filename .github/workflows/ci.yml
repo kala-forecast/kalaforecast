@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - Task-029
+      - Task-042
   workflow_dispatch:
 
 defaults:

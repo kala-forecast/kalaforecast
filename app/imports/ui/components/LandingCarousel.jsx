@@ -1,36 +1,52 @@
-import React, { useState } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
-import { Image } from 'react-bootstrap';
+import React from 'react';
+import '../../../client/landing.css';
+import { Image, Row, Col, Card } from 'react-bootstrap';
 
-const LandingCarousel = () => {
-  const [index, setIndex] = useState(0);
+const LandingGrid = () => (
+  <div className="landing-grid py-5 my-5">
+    <Row className="g-4 my-5">
+      {/* Card 1 */}
+      <Col xs={6} md={4}>
+        <Card className="card-square">
+          <Card.Body>
+            <Card.Title>Stress Tests</Card.Title>
+            <Image src="/images/stress.png" fluid />
+          </Card.Body>
+        </Card>
+      </Col>
 
-  const handleSelect = (selectedIndex) => {
-    setIndex(selectedIndex);
-  };
+      {/* Card 2 */}
+      <Col xs={6} md={4}>
+        <Card className="card-square">
+          <Card.Body>
+            <Card.Title>Sustainability Model</Card.Title>
+            <Image src="/images/sustain.png" fluid />
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
 
-  return (
-    <div className="landing-carousel p-4 my-5">
-      <h1>Featured pages:</h1>
-      <Carousel activeIndex={index} onSelect={handleSelect} className="carousel-dark">
-        <Carousel.Item>
-          <div>
-            <h3>Registration:</h3>
-            <p>Sign-up and create your username and password</p>
-          </div>
-          <Image src="/images/sign-up.png" fluid />
-        </Carousel.Item>
-        <Carousel.Item>
-          <div>
-            <h3>Sign-In:</h3>
-            <p>Using your username and password</p>
-          </div>
-          <Image src="/images/sign-in.png" fluid />
-        </Carousel.Item>
-      </Carousel>
-    </div>
+    <Row className="g-4 py-5 my-5">
+      {/* Card 3 */}
+      <Col xs={6} md={4}>
+        <Card className="card-square">
+          <Card.Body>
+            <Card.Title>Editable Workpapers</Card.Title>
+            <Image src="/images/editwp.png" fluid />
+          </Card.Body>
+        </Card>
+      </Col>
 
-  );
-};
-
-export default LandingCarousel;
+      {/* Card 4 */}
+      <Col xs={6} md={4}>
+        <Card className="card-square">
+          <Card.Body>
+            <Card.Title>Graph and Visuals</Card.Title>
+            <Image src="/images/graph.png" fluid />
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
+  </div>
+);
+export default LandingGrid;

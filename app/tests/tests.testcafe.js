@@ -22,7 +22,6 @@ test('Test that landing page work', async () => {
   await signInPage.signin(credentials.username, credentials.password);
   await navBar.isLoggedIn(credentials.username);
   await landingPage.isDisplayed();
-  await landingPage.checkCarousel();
   await landingPage.checkFooterLink();
   await navBar.logout();
 });
