@@ -6,10 +6,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import ListStuff from '../pages/ListStuff';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import AddStuff from '../pages/AddStuff';
-import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
@@ -43,15 +39,11 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-          <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
-          <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
-          <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/sustainability-model" element={<ProtectedRoute><SustainabilityModel /></ProtectedRoute>} />
           <Route path="/edit-workpaper" element={<ProtectedRoute><EditWorkpaper /></ProtectedRoute>} />
           <Route path="/workpapers" element={<ProtectedRoute><WorkPapers /></ProtectedRoute>} />
           <Route path="/stress-test" element={<ProtectedRoute><StressTest /></ProtectedRoute>} />
           <Route path="/graph-placeholder" element={<ProtectedRoute><GraphPlaceholder /></ProtectedRoute>} />
-          <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />

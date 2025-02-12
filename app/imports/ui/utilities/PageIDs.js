@@ -15,4 +15,5 @@ export const PAGE_IDS = {
   STRESS_TEST: 'stress-test',
   GRAPH_PLACEHOLDER: 'graph-placeholder',
   WORKPAPERS: 'workpapers',
+  EDIT_WORKPAPER: 'edit-workpaper',
 };
