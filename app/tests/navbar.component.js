@@ -18,8 +18,13 @@ class NavBar {
     if (!visible) {
       await t.click('button.navbar-toggler');
     }
-    await t.click(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN}`);
-    await t.click(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN}`);
+    const loginDropdown = Selector(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN}`);
+    await t.expect(loginDropdown.visible).ok();
+    await t.click(loginDropdown);
+
+    const signInButton = Selector(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN}`);
+    await t.expect(signInButton.visible).ok();
+    await t.click(signInButton);
   }
 
   /* Check that the specified user is currently logged in. */
