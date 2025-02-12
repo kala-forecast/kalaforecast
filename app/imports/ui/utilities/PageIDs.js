@@ -14,5 +14,6 @@ export const PAGE_IDS = {
   SUSTAINABILITY_MODEL: 'sustainability-model',
   STRESS_TEST: 'stress-test',
   GRAPH_PLACEHOLDER: 'graph-placeholder',
+  WORKPAPERS: 'workpapers',
   EDIT_WORKPAPER: 'edit-workpaper',
 };
