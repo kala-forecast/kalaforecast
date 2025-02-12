@@ -55,38 +55,13 @@ class NavBar {
     if (!visible) {
       await t.click('button.navbar-toggler');
     }
-    await t.click(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN}`);
-    await t.click(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP}`);
-  }
+    const loginDropdown = Selector(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN}`);
+    await t.expect(loginDropdown.visible).ok();
+    await t.click(loginDropdown);
 
-  /* Go to the add stuff page. */
-  async gotoAddStuffPage() {
-    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
-    if (!visible) {
-      await t.click('button.navbar-toggler');
-    }
-    await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`).exists).ok();
-    await t.click(`#${COMPONENT_IDS.NAVBAR_ADD_STUFF}`);
-  }
-
-  /* Go to the list stuff page. */
-  async gotoListStuffPage() {
-    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
-    if (!visible) {
-      await t.click('button.navbar-toggler');
-    }
-    await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`).exists).ok();
-    await t.click(`#${COMPONENT_IDS.NAVBAR_LIST_STUFF}`);
-  }
-
-  /* Go to the list stuff admin page. */
-  async gotoListStuffAdminPage() {
-    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
-    if (!visible) {
-      await t.click('button.navbar-toggler');
-    }
-    await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`).exists).ok();
-    await t.click(`#${COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN}`);
+    const signUpButton = Selector(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP}`);
+    await t.expect(signUpButton.visible).ok();
+    await t.click(signUpButton);
   }
 
   /* Go to the manage database page. Must be adimin. */
