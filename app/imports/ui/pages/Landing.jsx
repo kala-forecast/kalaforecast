@@ -17,9 +17,9 @@ const Landing = () => {
           <Image roundedCircle src="/images/kala-forcast-logo.png" width="65%" />
         </Col>
         <Col xs={8} className="landing d-flex flex-column justify-content-center">
-          <h1 className="py-4">Welcome to Kālā Forecast!</h1>
-          <h6 className="py-1">Kālā Forecast intends to provide a user-friendly and integrated framework for fiscal sustainability models.</h6>
-          <h6 className="py-1">This web based platform will provide information on sustainability models, stress tests, financial compilations, and modeled scenarios, as well a dashboard that displays forecasting outcome charts.</h6>
+          <h1 style={{ fontSize: '54px' }} className="py-4">Welcome to Kālā Forecast!</h1>
+          <h5 className="py-1">Kālā Forecast intends to provide a user-friendly and integrated framework for fiscal sustainability models.</h5>
+          <h5 className="py-2">This web based platform will provide information on sustainability models, stress tests, financial compilations, and modeled scenarios, as well a dashboard that displays forecasting outcome charts.</h5>
         </Col>
         { currentUser ? (
           <LandingCarousel />
