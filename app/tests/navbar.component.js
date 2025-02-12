@@ -58,6 +58,7 @@ class NavBar {
     const loginDropdown = Selector(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN}`);
     await t.expect(loginDropdown.visible).ok();
     await t.click(loginDropdown);
+    await t.wait(500);
 
     const signUpButton = Selector(`#${COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP}`);
     await t.expect(signUpButton.visible).ok();
