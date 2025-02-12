@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import LandingCarousel from '../components/LandingCarousel';
+import LandingGrid from '../components/LandingGrid';
 
 /* A simple static component to render landing page. */
 const Landing = () => {
@@ -22,7 +22,7 @@ const Landing = () => {
           <h5 className="py-2">This web based platform will provide information on sustainability models, stress tests, financial compilations, and modeled scenarios, as well a dashboard that displays forecasting outcome charts.</h5>
         </Col>
         { currentUser ? (
-          <LandingCarousel />
+          <LandingGrid />
         ) : (
           <>
             <hr className="my-5" />
