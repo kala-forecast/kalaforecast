@@ -51,12 +51,6 @@ const GraphPlaceholder = () => {
         const mostAffectedYearValue = years[forecastEquityDifferencesValue.indexOf(Math.max(...forecastEquityDifferencesValue))];
         const leastAffectedYearValue = years[forecastEquityDifferencesValue.indexOf(Math.min(...forecastEquityDifferencesValue))];
 
-        // console.logs for testing the values due to trouble with NaN values when parsing, prob fixed with the isNan filter above, keeping to make sure
-        console.log(`Parsed data file: ${validData}`);
-        console.log(`List of years: ${years}\nNumber of year entries: ${years.length}`);
-        console.log(`Good forecast values: ${goodForecast}\nNumber of GF entries: ${years.length}`);
-        console.log(`Stress test forecast values: ${stressTestForecast}\nNumber of STF entries: ${years.length}`);
-
         setForecastData({
           forecastEquityDifferences: forecastEquityDifferencesValue,
           mostAffectedYear: mostAffectedYearValue,
@@ -114,8 +108,21 @@ const GraphPlaceholder = () => {
       tooltip: {
         mode: 'index',
         intersect: false,
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.y !== null) {
+              label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+            }
+            return label;
+          },
+        },
       },
     },
+
     scales: {
       x: {
         ticks: {
@@ -160,6 +167,7 @@ const GraphPlaceholder = () => {
         },
       },
     },
+
   };
 
   return (
