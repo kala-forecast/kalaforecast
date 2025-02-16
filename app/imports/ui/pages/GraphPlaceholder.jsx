@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Table, Col, Row } from 'react-bootstrap';
-// import { Chart as ChartJS } from 'chart.js/auto';
+import 'chart.js/auto'; // changed to just import everything instead
 import { Line } from 'react-chartjs-2';
+import Papa from 'papaparse';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 /**
@@ -9,7 +10,82 @@ import { PAGE_IDS } from '../utilities/PageIDs';
  * @returns a graph using placeholder data, will change to imported data imported and mapped from the FC and SM later
  */
 
+async function returnParsedFile() {
+  const testCSV = '/csvdata/testData.csv';
+  const fetchCSV = await fetch(testCSV);
+  const csvData = await fetchCSV.text();
+
+  // parsing the csv file to json, auto formatting rows and columns
+  return new Promise((resolve) => {
+    Papa.parse(csvData, {
+      header: true,
+      complete: (result) => resolve(result.data),
+    });
+  });
+}
+
 const GraphPlaceholder = () => {
+
+  const [forecastData, setForecastData] = useState({
+    forecastEquityDifferences: [],
+    mostAffectedYear: '',
+    leastAffectedYear: '',
+  });
+
+  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+
+  // csv fetch on component mount
+  useEffect(() => {
+    async function fetchAndSetCSV() {
+      try {
+        // using the parsed csv file as formatted json for making the chart
+        const parsedData = await returnParsedFile();
+        // had to do this filter to fix weird NaN values in the row arrays after parsing, might find a better solution later
+        const validData = parsedData.filter(row => !Number.isNaN(parseFloat(row.GoodForecast)) && !Number.isNaN(parseFloat(row.StressTestForecast)));
+        const years = validData.map(row => row.Year);
+        const goodForecast = validData.map(row => parseFloat(row.GoodForecast));
+        const stressTestForecast = validData.map(row => parseFloat(row.StressTestForecast));
+
+        // calculation variables
+        const forecastEquityDifferencesValue = goodForecast.map((forecast, index) => Math.abs(forecast - stressTestForecast[index]));
+        const mostAffectedYearValue = years[forecastEquityDifferencesValue.indexOf(Math.max(...forecastEquityDifferencesValue))];
+        const leastAffectedYearValue = years[forecastEquityDifferencesValue.indexOf(Math.min(...forecastEquityDifferencesValue))];
+
+        setForecastData({
+          forecastEquityDifferences: forecastEquityDifferencesValue,
+          mostAffectedYear: mostAffectedYearValue,
+          leastAffectedYear: leastAffectedYearValue,
+        });
+
+        // setting the chart data for use in the Line component later
+        setChartData({
+          labels: years,
+          datasets: [
+            {
+              label: 'Predicted Forecast',
+              backgroundColor: 'rgba(75,192,192,0.4)',
+              borderColor: 'rgba(75,192,192,1)',
+              borderWidth: 1,
+              data: goodForecast,
+            },
+            {
+              label: 'Stress Test Forecast',
+              backgroundColor: 'rgba(255,99,132,0.4)',
+              borderColor: 'rgba(255,99,132,1)',
+              borderWidth: 1,
+              data: stressTestForecast,
+            },
+          ],
+        });
+      } catch (error) {
+        console.error('Error fetching CSV:', error);
+      }
+    }
+    fetchAndSetCSV();
+  }, []);
+
+  /* Commenting out the placeholder data for now, leaving it here for reference:
+
   const goodForecast = [267841, 277037, 280277, 275052, 277455, 277595, 276701, 277250, 277182, 277044, 277159, 277128];
 
   // random subtraction amount placeholder for variety
@@ -21,25 +97,7 @@ const GraphPlaceholder = () => {
   const mostAffectedYear = years[forecastEquityDifferences.indexOf(Math.max(...forecastEquityDifferences))];
   const leastAffectedYear = years[forecastEquityDifferences.indexOf(Math.min(...forecastEquityDifferences))];
 
-  const data = {
-    labels: years,
-    datasets: [
-      {
-        label: 'Predicted forecast',
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderWidth: 1,
-        data: goodForecast,
-      },
-      {
-        label: 'Stress test forecast',
-        backgroundColor: 'rgba(255,99,132,0.4)',
-        borderColor: 'rgba(255,99,132,1)',
-        borderWidth: 1,
-        data: stressTestForecast,
-      },
-    ],
-  };
+  */
 
   const options = {
     responsive: true,
@@ -50,8 +108,21 @@ const GraphPlaceholder = () => {
       tooltip: {
         mode: 'index',
         intersect: false,
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.y !== null) {
+              label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+            }
+            return label;
+          },
+        },
       },
     },
+
     scales: {
       x: {
         ticks: {
@@ -96,13 +167,14 @@ const GraphPlaceholder = () => {
         },
       },
     },
+
   };
 
   return (
     <Container id={PAGE_IDS.GRAPH_PLACEHOLDER} className="py-3" align="center">
       <Row>
         <Col>
-          <Line data={data} options={options} />
+          <Line data={chartData} options={options} />
         </Col>
         <Container className="p-5">
           <Col md={4}>
@@ -116,16 +188,16 @@ const GraphPlaceholder = () => {
                   Equity data
                 </th>
                 <tr>
-                  <td style={{ backgroundColor: 'rgba(207, 119, 119, 0.58)' }}>Most affected year: {mostAffectedYear}</td>
-                  <td>Potential loss: {Math.floor(Math.max(...forecastEquityDifferences)).toLocaleString('en-US', {
+                  <td style={{ backgroundColor: 'rgba(207, 119, 119, 0.58)' }}>Most affected year: {forecastData.mostAffectedYear}</td>
+                  <td>Potential loss: {Math.floor(Math.max(...forecastData.forecastEquityDifferences)).toLocaleString('en-US', {
                     style: 'currency',
                     currency: 'USD',
                   })}
                   </td>
                 </tr>
                 <tr>
-                  <td style={{ backgroundColor: 'rgba(116, 199, 109, 0.8)' }}>Least affected year: {leastAffectedYear}</td>
-                  <td>Potential loss: {Math.floor(Math.min(...forecastEquityDifferences)).toLocaleString('en-US', {
+                  <td style={{ backgroundColor: 'rgba(116, 199, 109, 0.8)' }}>Least affected year: {forecastData.leastAffectedYear}</td>
+                  <td>Potential loss: {Math.floor(Math.min(...forecastData.forecastEquityDifferences)).toLocaleString('en-US', {
                     style: 'currency',
                     currency: 'USD',
                   })}
