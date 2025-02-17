@@ -1,39 +1,83 @@
 /* Use Open Sans as the default sans serif font. */
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900');
-/* Set up some CSS variables to theme the application. */
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700");
+
+/* Set up CSS variables for a modern theme. */
 :root {
-  --matr-navbar-bg: rgba(84,168,197,0.5);
-  --matr-navbar-bg-rgb: 236, 236, 236;
+  --light-color: #ffffff;
+  --dark-color: #333333;
+  --matr-navbar-bg: var(--light-color);
+  --matr-navbar-bg-rgb: 255, 255, 255;
 }
 
-/* Change bootstrap variable values.
- See https://getbootstrap.com/docs/5.2/customize/css-variables/
- */
+/* Set Bootstrap variable values and base font styling. */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+/* Landing header styling */
+.landing-header {
+  height: 80lvh;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Button min-width class for login/sign up buttons */
+.btn-minwidth {
+  min-width: 200px;
+}
+
+/* Header title styling */
+.kala-title {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/* Carousel image styling */
+.carousel-image {
+  max-height: 140px;
+  object-fit: contain;
 }
 
 /* Set the SignIn and SignUp alerts background. */
-#signin-page .alert-light, #signup-page .alert-light {
-  --bs-alert-bg: var(--matr-navbar-bg);
+#signin-page .alert-light,
+#signup-page .alert-light {
+  --bs-alert-bg: var(--light-color);
 }
 
 /* Define custom styles */
 .navbar {
   background-color: var(--matr-navbar-bg);
-  font-family: 'Roboto 600', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
   background-color: var(--matr-navbar-bg);
-  font-family: 'Roboto 200', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #eaeaea;
 }
 
 .gray-background {
-  background-color: var(--bs-gray-200);
-  color: var(--bs-dark);
+  background-color: #f7f7f7;
+  color: var(--dark-color);
   padding-top: 10px;
   padding-bottom: 20px;
 }
+
+.blue-background {
+  background-color: #628fca;
+  color: var(--light-color);
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.card-description {
+  color: var(--dark-color);
+  font-size: 1.05rem;
+  margin-top: 0.5rem;
+}
+
