@@ -64,6 +64,7 @@ const Landing = () => {
                 <h5 className="py-2">
                   Our web-based platform provides information on sustainability models, stress tests, financial compilations, and modeled scenarios, as well as a dashboard that displays forecasting outcome charts.
                 </h5>
+                {/* Text only shows if not logged in */}
                 {!currentUser && (
                   <h5 className="py-2">
                     Please log in or sign up to get started!
