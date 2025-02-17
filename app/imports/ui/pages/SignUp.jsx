@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router';
-import { Link } from 'react-router-dom';
-import { Alert, Card, Col, Container, Row, Form } from 'react-bootstrap';
+import { Link, Navigate } from 'react-router-dom';
+import { Alert, Col, Container, Row, Form } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -48,47 +47,61 @@ const SignUp = () => {
   };
 
   /* Display the signup form. Redirect to add page after successful registration and login. */
-  // if correct authentication, redirect to from: page instead of signup screen
+  // if correct authentication, redirect to page instead of signup screen
   if (redirectToReferer) {
     return <Navigate to="/add" />;
   }
+
   return (
-    <Container id={PAGE_IDS.SIGN_UP} className="py-3">
-      <Row className="justify-content-center">
-        <Col xs={5}>
-          <Col className="text-center">
-            <h2>Register new account</h2>
-          </Col>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)}>
-            <Card>
-              <Card.Body>
-                <TextField id={COMPONENT_IDS.SIGN_UP_FORM_FIRST_NAME} name="firstName" placeholder="First name" />
-                <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
-                <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
-                <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
-                Role
-                <Form.Select id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} className="mb-3">
+    <Container id={PAGE_IDS.SIGN_UP} fluid className="p-0 vh-100">
+      <Row className="h-100 g-0">
+        {/* Left side */}
+        <Col
+          md={6}
+          className="d-flex flex-column justify-content-center align-items-center text-black"
+          style={{
+            backgroundImage: 'url("/images/spire-signup.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            padding: '2rem',
+          }}
+        />
+        {/* Right side */}
+        <Col
+          md={6}
+          className="d-flex flex-column justify-content-center align-items-center"
+          style={{ padding: '2rem' }}
+        >
+          <div style={{ maxWidth: '350px', width: '100%' }}>
+            <h1 className="mb-3 kala-title">Create new account.</h1>
+            <p>
+              Already have an account?&nbsp;
+              <Link to="/signin">Login here</Link>.
+            </p>
+            {error !== '' && (
+              <Alert variant="danger" className="mt-3 text-center">
+                <Alert.Heading>Registration failed</Alert.Heading>
+                {error}
+              </Alert>
+            )}
+            <AutoForm schema={bridge} onSubmit={(data) => submit(data)}>
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_FIRST_NAME} name="firstName" placeholder="First name" />
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
+              <Form.Group className="mb-3">
+                <Form.Label>Role</Form.Label>
+                <Form.Select id={COMPONENT_IDS.SIGN_UP_FORM_ROLE}>
                   <option>Select a Role</option>
                   <option value="analyst">Analyst</option>
                   <option value="executive">Executive</option>
                   <option value="auditor">Auditor</option>
                 </Form.Select>
-                <ErrorsField />
-                <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} />
-              </Card.Body>
-            </Card>
-          </AutoForm>
-          <Alert variant="secondary">
-            Already have an account? Login <Link to="/signin">here</Link>
-          </Alert>
-          {error === '' ? (
-            ''
-          ) : (
-            <Alert variant="danger">
-              <Alert.Heading>Registration was not successful</Alert.Heading>
-              {error}
-            </Alert>
-          )}
+              </Form.Group>
+              <ErrorsField />
+              <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} className="text-center pt-2" />
+            </AutoForm>
+          </div>
         </Col>
       </Row>
     </Container>

@@ -49,13 +49,11 @@ body {
 /* Define custom styles */
 .navbar {
   background-color: var(--matr-navbar-bg);
-  font-family: 'Open Sans', sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
   background-color: var(--matr-navbar-bg);
-  font-family: 'Open Sans', sans-serif;
   padding: 20px;
   text-align: center;
   border-top: 1px solid #eaeaea;
@@ -79,5 +77,9 @@ body {
   color: var(--dark-color);
   font-size: 1.05rem;
   margin-top: 0.5rem;
+}
+
+p, h1, h2, h3, h4, h5 , button, .navbar, .footer, .text-field, .card-description {
+  font-family: 'Open Sans', sans-serif;
 }
 
