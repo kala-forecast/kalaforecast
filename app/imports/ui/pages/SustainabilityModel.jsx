@@ -89,6 +89,50 @@ const SustainabilityModel = () => {
     { id: 14, title: 'Net Income (loss) %', data: [] },
   ];
 
+  const assetsData = [
+    { id: 15, title: 'Total Current Assets', data: [],
+      expandableRows: [
+        { title: 'Cash and cash equivalents', data: [] },
+        { title: 'Accounts receivable', data: [] },
+        { title: 'Inventory', data: [] },
+      ],
+    },
+    { id: 16, title: 'Total Long-Term Assets', data: [],
+      expandableRows: [
+        { title: 'Property, plant, and equipment', data: [] },
+        { title: 'Investment', data: [] },
+        { title: 'Scenario 1 - Stress Effect', data: [] },
+        { title: 'Scenario 2 - Stress Effect', data: [] },
+      ],
+    },
+    { id: 17, title: 'TOTAL ASSETS', data: [] },
+  ];
+
+  const liabilitiesEquityData = [
+    { id: 18, title: 'Total Current Liabilities (due within 1 year)', data: [],
+      expandableRows: [
+        { title: 'Accounts payable', data: [] },
+        { title: 'Debt Service', data: [] },
+        { title: 'Taxes payable', data: [] },
+      ],
+    },
+    { id: 19, title: 'Total Long-term Liabilities (due after one year)', data: [],
+      expandableRows: [
+        { title: 'Debt service', data: [] },
+        { title: 'Loans payable', data: [] },
+        { title: 'Scenario 5 - Stress Effect', data: [] },
+      ],
+    },
+    { id: 20, title: 'Total Liabilities', data: [] },
+    { id: 21, title: 'Total Stockholder\'s Equity', data: [],
+      expandableRows: [
+        { title: 'Equity Capital', data: [] },
+        { title: 'Retained Earnings', data: [] },
+      ],
+    },
+    { id: 22, title: 'TOTAL LIABILITIES AND EQUITY', data: [] },
+  ];
+
   return (
     <Container id={PAGE_IDS.SUSTAINABILITY_MODEL} className="py-3" align="center">
       <Button variant="outline-primary" className="m-3">Stress Test 1</Button>
@@ -140,101 +184,59 @@ const SustainabilityModel = () => {
             <Header />
             <tbody>
               <tr>
-                <th colSpan="13" className="text-center">ASSETS</th>
+                <th colSpan="13" className="text-center" style={{ backgroundColor: 'lightblue' }}>ASSETS</th>
               </tr>
+              {assetsData.map((row) => (
+                <React.Fragment key={row.id}>
+                  {/* Main row */}
+                  <tr>
+                    <th>
+                      {row.expandableRows && row.expandableRows.length > 0 && (
+                        <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
+                          {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
+                        </Button>
+                      )}
+                      {row.title}
+                    </th>
+                  </tr>
+
+                  {/* Render each hidden row if this row is expanded */}
+                  {expandedRows[row.id] &&
+              row.expandableRows &&
+              row.expandableRows.map((expandable, index) => (
+                <tr key={index}>
+                  <td>{expandable.title}</td>
+                </tr>
+              ))}
+                </React.Fragment>
+              ))}
               <tr>
-                <th>Current Assets</th>
+                <th colSpan="13" className="text-center" style={{ backgroundColor: 'lightblue' }}>LIABILITIES AND EQUITY</th>
               </tr>
-              <tr>
-                <td>Cash and cash equivalents</td>
-              </tr>
-              <tr>
-                <td>Accounts receivable</td>
-              </tr>
-              <tr>
-                <td>Inventory</td>
-              </tr>
-              <tr>
-                <td className="text-end">Scenario 3 - Stress Effect</td>
-              </tr>
-              <tr>
-                <td className="text-end">Scenario 4 - Stress Effect</td>
-              </tr>
-              <tr>
-                <th>Total Current Assets</th>
-              </tr>
-              <tr>
-                <th>Long-term Assets</th>
-              </tr>
-              <tr>
-                <td>Property, plant, and equipment</td>
-              </tr>
-              <tr>
-                <td>Investment</td>
-              </tr>
-              <tr>
-                <td className="text-end">Scenario 1 - Stress Effect</td>
-              </tr>
-              <tr>
-                <td className="text-end">Scenario 2 - Stress Effect</td>
-              </tr>
-              <tr>
-                <th>Total long-term Assets</th>
-              </tr>
-              <tr>
-                <th>TOTAL ASSETS</th>
-              </tr>
-              <tr>
-                <th colSpan="13" className="text-center">LIABILITIES AND EQUITY</th>
-              </tr>
-              <tr>
-                <th>Current Liabilities (due within 1 year)</th>
-              </tr>
-              <tr>
-                <td>Accounts payable</td>
-              </tr>
-              <tr>
-                <td>Debt service</td>
-              </tr>
-              <tr>
-                <td>Taxes payable</td>
-              </tr>
-              <tr>
-                <th>Total Current Liabilities</th>
-              </tr>
-              <tr>
-                <th>Long-term Liabilities (due after 1 year)</th>
-              </tr>
-              <tr>
-                <td>Debt service</td>
-              </tr>
-              <tr>
-                <td>Loans payable</td>
-              </tr>
-              <tr>
-                <td className="text-end">Scenario 5 - Stress Effect</td>
-              </tr>
-              <tr>
-                <th>Total Long-term Liabilities</th>
-              </tr>
-              <tr>
-                <th>Total Liabilities</th>
-              </tr>
-              <tr>
-                <th>Stockholder's Equity</th>
-              </tr>
-              <tr>
-                <td>Equity Capital</td>
-              </tr>
-              <tr>
-                <td>Retained earnings</td>
-              </tr>
-              <tr>
-                <th>Total Stockholder's Equity</th>
-              </tr>
-              <tr>
-                <th>TOTAL LIABILITIES AND EQUITY</th>
-              </tr>
+              {liabilitiesEquityData.map((row) => (
+                <React.Fragment key={row.id}>
+                  {/* Main row */}
+                  <tr>
+                    <th>
+                      {row.expandableRows && row.expandableRows.length > 0 && (
+                        <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
+                          {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
+                        </Button>
+                      )}
+                      {row.title}
+                    </th>
+                  </tr>
+
+                  {/* Render each hidden row if this row is expanded */}
+                  {expandedRows[row.id] &&
+              row.expandableRows &&
+              row.expandableRows.map((expandable, index) => (
+                <tr key={index}>
+                  <td>{expandable.title}</td>
+                </tr>
+              ))}
+                </React.Fragment>
+              ))}
             </tbody>
           </Table>
         </Tab>
