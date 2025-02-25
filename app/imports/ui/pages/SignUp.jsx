@@ -7,8 +7,6 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-import { UserProfiles } from '../../api/user/UserProfileCollection';
-import { defineMethod } from '../../api/base/BaseCollection.methods';
 
 /**
  * SignUp component is similar to signin component, but we create a new user instead.
@@ -18,38 +16,37 @@ const SignUp = () => {
   const [redirectToReferer, setRedirectToRef] = useState(false);
 
   const schema = new SimpleSchema({
+    email: String,
     firstName: String,
     lastName: String,
-    email: String,
+    role: String,
     password: String,
   });
   const bridge = new SimpleSchema2Bridge(schema);
 
   /* Handle SignUp submission. Create user account and a profile entry, then redirect to the home page. */
   const submit = (doc) => {
-    const collectionName = UserProfiles.getCollectionName();
-    const definitionData = doc;
-    // create the new UserProfile
-    defineMethod.callPromise({ collectionName, definitionData })
-      .then(() => {
-        // log the new user in.
-        const { email, password } = doc;
-        Meteor.loginWithPassword(email, password, (err) => {
-          if (err) {
-            setError(err.reason);
-          } else {
-            setError('');
-            setRedirectToRef(true);
-          }
-        });
-      })
-      .catch((err) => setError(err.reason));
+    console.log(doc);
+    const { email, role, firstName, lastName, password } = doc;
+    Meteor.call('createNewUser', { email, role, firstName, lastName, password }).then(() => {
+      Meteor.loginWithPassword(email, password, (err) => {
+        if (err) {
+          setError(err.reason);
+        } else {
+          setError('');
+          setRedirectToRef(true);
+        }
+      });
+    })
+      .catch((err) => {
+        setError(err.reason || 'An error occurred when creating account.');
+      });
   };
 
   /* Display the signup form. Redirect to add page after successful registration and login. */
   // if correct authentication, redirect to page instead of signup screen
   if (redirectToReferer) {
-    return <Navigate to="/add" />;
+    return <Navigate to="/landing" />;
   }
 
   return (
@@ -89,17 +86,19 @@ const SignUp = () => {
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
-              <Form.Group className="mb-3">
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} name="role" placeholder="Role: analyst, auditor, etc." />
+              {/** Commented out for debugging - Form.Select does not return a String
+               <Form.Group className="mb-3">
                 <Form.Label>Role</Form.Label>
-                <Form.Select id={COMPONENT_IDS.SIGN_UP_FORM_ROLE}>
-                  <option>Select a Role</option>
+                <Form.Select id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} name="role" required>
+                  <option value="">Select a Role</option>
                   <option value="analyst">Analyst</option>
                   <option value="executive">Executive</option>
                   <option value="auditor">Auditor</option>
                 </Form.Select>
-              </Form.Group>
+              </Form.Group> **/}
               <ErrorsField />
-              <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} className="text-center pt-2" />
+              <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} className="text-center pt-2" disabled={false} />
             </AutoForm>
           </div>
         </Col>

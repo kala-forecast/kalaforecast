@@ -40,6 +40,10 @@ class UserCollection {
     return credential;
   }
 
+  getCollectionName() {
+    return 'users';
+  }
+
   /**
    * Define a new user, which means creating an entry in Meteor.Accounts.
    * This is called in the various Profile define() methods.
@@ -55,14 +59,14 @@ class UserCollection {
     // In test Meteor.settings is not set from settings.development.json so we use _.get to see if it is set.
     const credential = password || this._generateCredential();
     if (_.get(Meteor, 'settings.public.development', false)) {
-      const userID = Accounts.createUser({ username, email: username, password: credential });
+      const userID = Accounts.createUser({ email: username, password: credential });
       Roles.addUsersToRoles(userID, [role]);
       console.log(`Defining ${role} ${username} with password ${credential}`);
       return userID;
     }
     // Otherwise define this user with a Meteor login and randomly generated password.
     console.log(`Defining ${role} ${username} with password ${credential}`);
-    const userID = Accounts.createUser({ username, email: username, password: credential });
+    const userID = Accounts.createUser({ email: { username, email: username, password: credential } });
     Roles.addUsersToRoles(userID, [role]);
     return userID;
     // }
