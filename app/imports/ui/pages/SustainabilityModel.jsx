@@ -4,26 +4,6 @@ import { Container, Button, Table, Tabs, Tab } from 'react-bootstrap';
 import { CaretRightFill, CaretDownFill } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
-const Header = () => (
-  <thead>
-    <tr className="text-center">
-      <th>Forecast Year</th>
-      <th>2025</th>
-      <th>2026</th>
-      <th>2027</th>
-      <th>2028</th>
-      <th>2029</th>
-      <th>2030</th>
-      <th>2031</th>
-      <th>2032</th>
-      <th>2033</th>
-      <th>2034</th>
-      <th>2035</th>
-      <th>2036</th>
-    </tr>
-  </thead>
-);
-
 const SustainabilityModel = () => {
 
   const [expandedRows, setExpandedRows] = useState({});
@@ -133,6 +113,35 @@ const SustainabilityModel = () => {
     { id: 22, title: 'TOTAL LIABILITIES AND EQUITY', data: [] },
   ];
 
+  const renderTable = (dataset) => (
+    <>
+      {dataset.map((row) => (
+        <React.Fragment key={row.id}>
+          {/* Main row */}
+          <tr>
+            <th>
+              {row.expandableRows && row.expandableRows.length > 0 && (
+                <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
+                  {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
+                </Button>
+              )}
+              {row.title}
+            </th>
+          </tr>
+
+          {/* Render each hidden row if this row is expanded */}
+          {expandedRows[row.id] &&
+    row.expandableRows &&
+    row.expandableRows.map((expandable, index) => (
+      <tr key={index}>
+        <td>{expandable.title}</td>
+      </tr>
+    ))}
+        </React.Fragment>
+      ))}
+    </>
+  );
+
   return (
     <Container id={PAGE_IDS.SUSTAINABILITY_MODEL} className="py-3" align="center">
       <Button variant="outline-primary" className="m-3">Stress Test 1</Button>
@@ -152,30 +161,7 @@ const SustainabilityModel = () => {
           <Table striped bordered hover>
             <Header />
             <tbody>
-              {incomeStatementData.map((row) => (
-                <React.Fragment key={row.id}>
-                  {/* Main row */}
-                  <tr>
-                    <th>
-                      {row.expandableRows && row.expandableRows.length > 0 && (
-                        <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
-                          {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
-                        </Button>
-                      )}
-                      {row.title}
-                    </th>
-                  </tr>
-
-                  {/* Render each hidden row if this row is expanded */}
-                  {expandedRows[row.id] &&
-              row.expandableRows &&
-              row.expandableRows.map((expandable, index) => (
-                <tr key={index}>
-                  <td>{expandable.title}</td>
-                </tr>
-              ))}
-                </React.Fragment>
-              ))}
+              {renderTable(incomeStatementData)}
             </tbody>
           </Table>
         </Tab>
@@ -186,57 +172,11 @@ const SustainabilityModel = () => {
               <tr>
                 <th colSpan="13" className="text-center" style={{ backgroundColor: 'lightblue' }}>ASSETS</th>
               </tr>
-              {assetsData.map((row) => (
-                <React.Fragment key={row.id}>
-                  {/* Main row */}
-                  <tr>
-                    <th>
-                      {row.expandableRows && row.expandableRows.length > 0 && (
-                        <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
-                          {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
-                        </Button>
-                      )}
-                      {row.title}
-                    </th>
-                  </tr>
-
-                  {/* Render each hidden row if this row is expanded */}
-                  {expandedRows[row.id] &&
-              row.expandableRows &&
-              row.expandableRows.map((expandable, index) => (
-                <tr key={index}>
-                  <td>{expandable.title}</td>
-                </tr>
-              ))}
-                </React.Fragment>
-              ))}
+              {renderTable(assetsData)}
               <tr>
                 <th colSpan="13" className="text-center" style={{ backgroundColor: 'lightblue' }}>LIABILITIES AND EQUITY</th>
               </tr>
-              {liabilitiesEquityData.map((row) => (
-                <React.Fragment key={row.id}>
-                  {/* Main row */}
-                  <tr>
-                    <th>
-                      {row.expandableRows && row.expandableRows.length > 0 && (
-                        <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
-                          {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
-                        </Button>
-                      )}
-                      {row.title}
-                    </th>
-                  </tr>
-
-                  {/* Render each hidden row if this row is expanded */}
-                  {expandedRows[row.id] &&
-              row.expandableRows &&
-              row.expandableRows.map((expandable, index) => (
-                <tr key={index}>
-                  <td>{expandable.title}</td>
-                </tr>
-              ))}
-                </React.Fragment>
-              ))}
+              {renderTable(liabilitiesEquityData)}
             </tbody>
           </Table>
         </Tab>
@@ -245,5 +185,25 @@ const SustainabilityModel = () => {
 
   );
 };
+
+const Header = () => (
+  <thead>
+    <tr className="text-center">
+      <th>Forecast Year</th>
+      <th>2025</th>
+      <th>2026</th>
+      <th>2027</th>
+      <th>2028</th>
+      <th>2029</th>
+      <th>2030</th>
+      <th>2031</th>
+      <th>2032</th>
+      <th>2033</th>
+      <th>2034</th>
+      <th>2035</th>
+      <th>2036</th>
+    </tr>
+  </thead>
+);
 
 export default SustainabilityModel;
