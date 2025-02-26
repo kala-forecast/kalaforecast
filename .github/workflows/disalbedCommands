@@ -1,0 +1,3 @@
+meteor npm run test-acceptance-ci
+meteor npm run test-unit
+meteor npm run test-integration
