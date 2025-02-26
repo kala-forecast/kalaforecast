@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
 import { Alert, Col, Container, Row, Form } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
@@ -7,8 +8,8 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 /**
  * SignUp component is similar to signin component, but we create a new user instead.
@@ -17,10 +18,22 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const [redirectToReferer, setRedirectToRef] = useState(false);
 
+  /*
+  const [role, setRole] = useState('');
+
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+  */
+
   const schema = new SimpleSchema({
+    email: String,
     firstName: String,
     lastName: String,
-    email: String,
+    role: {
+      type: String,
+      allowedValues: ['ADMIN', 'USER', 'ANALYST', 'AUDITOR', 'EXECUTIVE'],
+    },
     password: String,
   });
   const bridge = new SimpleSchema2Bridge(schema);
@@ -43,13 +56,16 @@ const SignUp = () => {
           }
         });
       })
-      .catch((err) => setError(err.reason));
+      .catch((err) => {
+        console.error('Signup error: ', err);
+        setError(err.reason);
+      });
   };
 
   /* Display the signup form. Redirect to add page after successful registration and login. */
   // if correct authentication, redirect to page instead of signup screen
   if (redirectToReferer) {
-    return <Navigate to="/add" />;
+    return <Navigate to="/landing" />;
   }
 
   return (
@@ -89,17 +105,26 @@ const SignUp = () => {
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
-              <Form.Group className="mb-3">
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_ROLE_TEXT} name="role" placeholder="Role: ADMIN, ANALYST, etc." />
+              { /* Commented out for testing, Form.Group does not submit role value for some reason.
+                <Form.Group className="mb-3">
                 <Form.Label>Role</Form.Label>
-                <Form.Select id={COMPONENT_IDS.SIGN_UP_FORM_ROLE}>
-                  <option>Select a Role</option>
+                <Form.Select
+                  id={COMPONENT_IDS.SIGN_UP_FORM_ROLE}
+                  name="role"
+                  required
+                  value={role}
+                  onChange={handleRoleChange}
+                >
+                  <option value="">Select a Role</option>
                   <option value="analyst">Analyst</option>
                   <option value="executive">Executive</option>
                   <option value="auditor">Auditor</option>
                 </Form.Select>
               </Form.Group>
+              */ }
               <ErrorsField />
-              <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} className="text-center pt-2" />
+              <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} className="text-center pt-2" disabled={false} />
             </AutoForm>
           </div>
         </Col>

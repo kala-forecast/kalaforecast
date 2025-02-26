@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+          <Route path="/landing" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/sustainability-model" element={<ProtectedRoute><SustainabilityModel /></ProtectedRoute>} />
           <Route path="/edit-workpaper" element={<ProtectedRoute><EditWorkpaper /></ProtectedRoute>} />
           <Route path="/workpapers" element={<ProtectedRoute><WorkPapers /></ProtectedRoute>} />

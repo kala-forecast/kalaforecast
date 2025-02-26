@@ -11,17 +11,16 @@ class UserProfileCollection extends BaseProfileCollection {
   /**
    * Defines the profile associated with an User and the associated Meteor account.
    * @param email The email associated with this profile. Will be the username.
+   * @param role The role for this user.
    * @param password The password for this user.
    * @param firstName The first name.
    * @param lastName The last name.
    */
-  define({ email, firstName, lastName, password }) {
+  define({ email, firstName, lastName, role, password }) {
     // if (Meteor.isServer) {
-    const username = email;
     const user = this.findOne({ email, firstName, lastName });
     if (!user) {
-      const role = ROLE.USER;
-      const userID = Users.define({ username, role, password });
+      const userID = Users.define({ email, role, password });
       const profileID = this._collection.insert({ email, firstName, lastName, userID, role });
       // this._collection.update(profileID, { $set: { userID } });
       return profileID;

@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import _ from 'lodash';
-import { Stuffs } from '../stuff/StuffCollection';
 
 /**
  * Represents a user, which is someone who has a Meteor account.
@@ -40,6 +39,10 @@ class UserCollection {
     return credential;
   }
 
+  getCollectionName() {
+    return 'Users';
+  }
+
   /**
    * Define a new user, which means creating an entry in Meteor.Accounts.
    * This is called in the various Profile define() methods.
@@ -49,20 +52,26 @@ class UserCollection {
    * @returns { String } The docID of the newly created user.
    * @throws { Meteor.Error } If the user exists.
    */
-  define({ username, role, password }) {
+  define({ email, role, password }) {
     // if (Meteor.isServer) {
     Roles.createRole(role, { unlessExists: true });
     // In test Meteor.settings is not set from settings.development.json so we use _.get to see if it is set.
-    const credential = password || this._generateCredential();
     if (_.get(Meteor, 'settings.public.development', false)) {
-      const userID = Accounts.createUser({ username, email: username, password: credential });
+      const userID = Accounts.createUser({ email: email, password: password, username: email });
       Roles.addUsersToRoles(userID, [role]);
-      console.log(`Defining ${role} ${username} with password ${credential}`);
+      Meteor.publish('roleAssignments', function () {
+        return Meteor.roleAssignment.find({ 'user._id': userID });
+      });
+      Meteor.publish('userProfiles', function () {
+        return Meteor.UserProfiles.find({ 'user._id': userID });
+      });
+      console.log(`Defining (UserCollection.define w/ password) ${role} ${email} with password ${password}`);
       return userID;
     }
     // Otherwise define this user with a Meteor login and randomly generated password.
-    console.log(`Defining ${role} ${username} with password ${credential}`);
-    const userID = Accounts.createUser({ username, email: username, password: credential });
+    const generatedPassword = this._generateCredential();
+    console.log(`Defining (UserCollection.define) ${role} ${email} with password ${generatedPassword}`);
+    const userID = Accounts.createUser({ email, generatedPassword });
     Roles.addUsersToRoles(userID, [role]);
     return userID;
     // }
@@ -86,16 +95,6 @@ class UserCollection {
     } else if (profile.role !== role) {
       throw new Meteor.Error(`${userID} (${this.getProfile(userID).username}) is not in role ${role}.`);
     }
-  }
-
-  /**
-   * Returns true if user is referenced by other "public" entities. Specifically user owns Stuff.
-   * Used to determine if user can be deleted.
-   * @param user
-   * @return {boolean}
-   */
-  isReferenced(user) {
-    return Stuffs.find({ owner: user }).fetch().length > 0;
   }
 
   /**
