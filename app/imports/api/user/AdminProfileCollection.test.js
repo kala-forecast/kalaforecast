@@ -31,7 +31,9 @@ if (Meteor.isServer) {
           fc.lorem({ maxCount: 1 }),
           (firstName, lastName) => {
             const email = faker.internet.email();
-            const definitionData = { email, firstName, lastName };
+            const role = 'ADMIN';
+            const password = 'changeme';
+            const definitionData = { email, firstName, lastName, role, password };
             testDefine(collection, definitionData);
           },
         ),
@@ -43,8 +45,10 @@ if (Meteor.isServer) {
       const email = faker.internet.email();
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
-      const docID1 = collection.define({ email, firstName, lastName });
-      const docID2 = collection.define({ email, firstName, lastName });
+      const role = 'ADMIN';
+      const password = 'changeme';
+      const docID1 = collection.define({ email, firstName, lastName, role, password });
+      const docID2 = collection.define({ email, firstName, lastName, role, password });
       expect(docID1).to.equal(docID2);
     });
 
@@ -53,7 +57,8 @@ if (Meteor.isServer) {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
       const password = faker.internet.password();
-      const docID = collection.define({ email, firstName, lastName, password });
+      const role = 'ADMIN';
+      const docID = collection.define({ email, firstName, lastName, role, password });
       fc.assert(
         fc.property(
           fc.lorem({ maxCount: 1 }),
