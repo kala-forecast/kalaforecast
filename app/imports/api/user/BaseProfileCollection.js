@@ -116,23 +116,6 @@ class BaseProfileCollection extends BaseCollection {
   getUserID(profileID) {
     return this._collection.findOne(profileID).userID;
   }
-
-  /**
-   * Removes this profile, given its profile ID.
-   * Also removes this user from Meteor Accounts.
-   * @param profileID The ID for this profile object.
-   */
-  removeIt(profileID) {
-    // console.log('BaseProfileCollection.removeIt', profileID);
-    const profile = this._collection.findOne({ _id: profileID });
-    const userID = profile.userID;
-    if (!Users.isReferenced(userID)) {
-      Meteor.users.remove({ _id: userID });
-      return super.removeIt(profileID);
-    }
-    throw new Meteor.Error(`User ${profile.email} owns Stuff.`);
-  }
-
 }
 
 export default BaseProfileCollection;
