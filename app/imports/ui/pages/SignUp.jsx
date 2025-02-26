@@ -105,7 +105,7 @@ const SignUp = () => {
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
-              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} name="role" placeholder="Role: ADMIN, ANALYST, etc." />
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_ROLE_TEXT} name="role" placeholder="Role: ADMIN, ANALYST, etc." />
               { /* Commented out for testing, Form.Group does not submit role value for some reason.
                 <Form.Group className="mb-3">
                 <Form.Label>Role</Form.Label>
