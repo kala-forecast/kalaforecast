@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
 import { Alert, Col, Container, Row, Form } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
@@ -7,6 +8,8 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 /**
  * SignUp component is similar to signin component, but we create a new user instead.
@@ -15,31 +18,47 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const [redirectToReferer, setRedirectToRef] = useState(false);
 
+  /*
+  const [role, setRole] = useState('');
+
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+  */
+
   const schema = new SimpleSchema({
     email: String,
     firstName: String,
     lastName: String,
-    role: String,
+    role: {
+      type: String,
+      allowedValues: ['ADMIN', 'USER', 'ANALYST', 'AUDITOR', 'EXECUTIVE'],
+    },
     password: String,
   });
   const bridge = new SimpleSchema2Bridge(schema);
 
   /* Handle SignUp submission. Create user account and a profile entry, then redirect to the home page. */
   const submit = (doc) => {
-    console.log(doc);
-    const { email, role, firstName, lastName, password } = doc;
-    Meteor.call('createNewUser', { email, role, firstName, lastName, password }).then(() => {
-      Meteor.loginWithPassword(email, password, (err) => {
-        if (err) {
-          setError(err.reason);
-        } else {
-          setError('');
-          setRedirectToRef(true);
-        }
-      });
-    })
+    const collectionName = UserProfiles.getCollectionName();
+    const definitionData = doc;
+    // create the new UserProfile
+    defineMethod.callPromise({ collectionName, definitionData })
+      .then(() => {
+        // log the new user in.
+        const { email, password } = doc;
+        Meteor.loginWithPassword(email, password, (err) => {
+          if (err) {
+            setError(err.reason);
+          } else {
+            setError('');
+            setRedirectToRef(true);
+          }
+        });
+      })
       .catch((err) => {
-        setError(err.reason || 'An error occurred when creating account.');
+        console.error('Signup error: ', err);
+        setError(err.reason);
       });
   };
 
@@ -86,17 +105,24 @@ const SignUp = () => {
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
               <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
-              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} name="role" placeholder="Role: analyst, auditor, etc." />
-              {/** Commented out for debugging - Form.Select does not return a String
-               <Form.Group className="mb-3">
+              <TextField id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} name="role" placeholder="Role: ADMIN, ANALYST, etc." />
+              { /* Commented out for testing, Form.Group does not submit role value for some reason.
+                <Form.Group className="mb-3">
                 <Form.Label>Role</Form.Label>
-                <Form.Select id={COMPONENT_IDS.SIGN_UP_FORM_ROLE} name="role" required>
+                <Form.Select
+                  id={COMPONENT_IDS.SIGN_UP_FORM_ROLE}
+                  name="role"
+                  required
+                  value={role}
+                  onChange={handleRoleChange}
+                >
                   <option value="">Select a Role</option>
                   <option value="analyst">Analyst</option>
                   <option value="executive">Executive</option>
                   <option value="auditor">Auditor</option>
                 </Form.Select>
-              </Form.Group> **/}
+              </Form.Group>
+              */ }
               <ErrorsField />
               <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} className="text-center pt-2" disabled={false} />
             </AutoForm>

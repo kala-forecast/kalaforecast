@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
-import { Users } from '../../api/user/UserCollection';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AnalystProfiles } from '../../api/user/AnalystProfileCollection';
 import { AuditorProfiles } from '../../api/user/AuditorProfileCollection';
 import { ExecutiveProfiles } from '../../api/user/ExecutiveProfileCollection';
@@ -25,7 +24,7 @@ Meteor.methods({
       break;
     }
 
-    Users.define({ email, role, password });
+    UserProfiles.define({ email, firstName, lastName, password });
     collection.define({ email, firstName, lastName, password });
   },
 });

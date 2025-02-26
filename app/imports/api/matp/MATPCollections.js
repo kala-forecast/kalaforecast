@@ -4,6 +4,7 @@ import { AnalystProfiles } from '../user/AnalystProfileCollection';
 import { AuditorProfiles } from '../user/AuditorProfileCollection';
 import { ExecutiveProfiles } from '../user/ExecutiveProfileCollection';
 import { Users } from '../user/UserCollection';
+import { UserProfiles } from '../user/UserProfileCollection';
 
 class MATPClass {
   collections;
@@ -20,6 +21,7 @@ class MATPClass {
       AuditorProfiles,
       ExecutiveProfiles,
       Users,
+      UserProfiles,
     ];
     /*
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.
@@ -30,6 +32,7 @@ class MATPClass {
       AuditorProfiles,
       ExecutiveProfiles,
       Users,
+      UserProfiles,
     ];
 
     /*

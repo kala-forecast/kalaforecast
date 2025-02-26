@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ToggleSwitch = ({ value, onChange }) => {
-  return (
-    <button
-      type="button"
-      onClick={onChange}
-      className={`btn ${value ? 'btn-success' : 'btn-secondary'} rounded-pill`}
-      style={{ width: '120px' }}  // Wider button
-    >
-      {value ? 'On' : 'Off'}
-    </button>
-  );
-};
+// eslint-disable-next-line react/prop-types
+const ToggleSwitch = ({ value, onChange }) => (
+  <button
+    type="button"
+    onClick={onChange}
+    className={`btn ${value ? 'btn-success' : 'btn-secondary'} rounded-pill`}
+    style={{ width: '120px' }} // Wider button
+  >
+    {value ? 'On' : 'Off'}
+  </button>
+);
 
 const FiscalSustainabilityModel = () => {
   const [toggleStates, setToggleStates] = useState({});
@@ -122,6 +121,7 @@ const FiscalSustainabilityModel = () => {
                     </td>
                     <td style={{ minWidth: '100px' }}>{priority.subLabel}</td>
                     {[...Array(12).keys()].map((_, i) => (
+                      // eslint-disable-next-line jsx-a11y/control-has-associated-label
                       <td key={i} className="text-center">
                         <input
                           type="text"
