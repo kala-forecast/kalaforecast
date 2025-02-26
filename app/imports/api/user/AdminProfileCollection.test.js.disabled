@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { expect } from 'chai';
 import faker from 'faker';
 import fc from 'fast-check';
+import { it } from 'faker/lib/locales';
 import { removeAllEntities } from '../base/BaseUtilities';
 import { AdminProfiles } from './AdminProfileCollection';
 import { MATPCollections } from '../matp/MATPCollections';
