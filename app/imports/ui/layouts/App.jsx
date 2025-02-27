@@ -20,6 +20,7 @@ import EditWorkpaper from '../pages/EditWorkpaper';
 import StressTest from '../pages/StressTest';
 import GraphPlaceholder from '../pages/GraphPlaceholder';
 import WorkPapers from '../pages/WorkPapers';
+import FinancialCompilation from '../pages/FinancialCompilation';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/landing" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/sustainability-model" element={<ProtectedRoute><SustainabilityModel /></ProtectedRoute>} />
+          <Route path="/financial-compilation" element={<ProtectedRoute><FinancialCompilation /></ProtectedRoute>} />
           <Route path="/edit-workpaper" element={<ProtectedRoute><EditWorkpaper /></ProtectedRoute>} />
           <Route path="/workpapers" element={<ProtectedRoute><WorkPapers /></ProtectedRoute>} />
           <Route path="/stress-test" element={<ProtectedRoute><StressTest /></ProtectedRoute>} />
