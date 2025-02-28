@@ -131,12 +131,12 @@ const SustainabilityModel = () => {
 
           {/* Render each hidden row if this row is expanded */}
           {expandedRows[row.id] &&
-    row.expandableRows &&
-    row.expandableRows.map((expandable, index) => (
-      <tr key={index}>
-        <td>{expandable.title}</td>
-      </tr>
-    ))}
+                  row.expandableRows &&
+                  row.expandableRows.map((expandable, index) => (
+                    <tr key={index}>
+                      <td>{expandable.title}</td>
+                    </tr>
+                  ))}
         </React.Fragment>
       ))}
     </>

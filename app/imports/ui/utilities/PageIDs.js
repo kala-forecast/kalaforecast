@@ -16,4 +16,5 @@ export const PAGE_IDS = {
   GRAPH_PLACEHOLDER: 'graph-placeholder',
   WORKPAPERS: 'workpapers',
   EDIT_WORKPAPER: 'edit-workpaper',
+  FINANCIAL_COMPILATION: 'financial-compilation',
 };
