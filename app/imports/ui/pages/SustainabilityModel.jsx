@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
-import { Container, Button, Table, Tabs, Tab } from 'react-bootstrap';
+import { Container, Button, Table, Tabs, Tab, Row, Col, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { CaretRightFill, CaretDownFill } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
@@ -143,15 +143,66 @@ const SustainabilityModel = () => {
   );
 
   return (
-    <Container id={PAGE_IDS.SUSTAINABILITY_MODEL} className="py-3" align="center">
-      <Button variant="outline-primary" className="m-3">Stress Test 1</Button>
-      <Button variant="outline-primary" className="m-3">Stress Test 2</Button>
-      <Button variant="outline-primary" className="m-3">Stress Test 2</Button>
-      <Button variant="outline-primary" className="m-3">Stress Test 3</Button>
-      <Button variant="outline-primary" className="m-3">Stress Test 4</Button>
-      <Button variant="outline-primary" className="m-3">Stress Test 5</Button>
-      <Button variant="outline-primary" className="m-3">Stress Test 5A</Button>
-      <Button variant="outline-primary" className="m-3">Stress Test 5B</Button>
+    <Container id={PAGE_IDS.SUSTAINABILITY_MODEL} align="center">
+      <Row className="pt-3">
+        <Col>Stress Test 1</Col>
+        <Col>Stress Test 2</Col>
+        <Col>Stress Test 3</Col>
+        <Col>Stress Test 4</Col>
+        <Col>Stress Test 5</Col>
+      </Row>
+      <Row className="pb-3">
+        <Col>
+          <ToggleButtonGroup type="checkbox" name="Stress1">
+            <ToggleButton id="tbg-check-1" value={1} variant="outline-success">
+              Stress Effect
+            </ToggleButton>
+            <ToggleButton id="tbg-check-2" value={2} variant="outline-success">
+              Residual Effect
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Col>
+        <Col>
+          <ToggleButtonGroup type="checkbox" name="Stress1">
+            <ToggleButton id="tbg-check-3" value={1} variant="outline-success">
+              Stress Effect
+            </ToggleButton>
+            <ToggleButton id="tbg-check-4" value={2} variant="outline-success">
+              Residual Effect
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Col>
+        <Col>
+          <ToggleButtonGroup type="checkbox" name="Stress1">
+            <ToggleButton id="tbg-check-5" value={1} variant="outline-success">
+              Stress Effect
+            </ToggleButton>
+            <ToggleButton id="tbg-check-6" value={2} variant="outline-success">
+              Residual Effect
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Col>
+        <Col>
+          <ToggleButtonGroup type="checkbox" name="Stress1">
+            <ToggleButton id="tbg-check-7" value={1} variant="outline-success">
+              Stress Effect
+            </ToggleButton>
+            <ToggleButton id="tbg-check-8" value={2} variant="outline-success">
+              Residual Effect
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Col>
+        <Col>
+          <ToggleButtonGroup type="checkbox" name="Stress1">
+            <ToggleButton id="tbg-check-9" value={1} variant="outline-success">
+              Stress Effect
+            </ToggleButton>
+            <ToggleButton id="tbg-check-10" value={2} variant="outline-success">
+              Residual Effect
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Col>
+      </Row>
       <Tabs
         defaultActiveKey="income-statement"
         className="mb-3"
