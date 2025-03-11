@@ -39,14 +39,14 @@ const SustainabilityModel = () => {
         { id: 9, title: 'Scenario 4 - Residual Effect', data: [] },
       ],
     },
-    { id: 10, title: 'Cost of Goods Sold', data: [],
+    { id: 10, title: 'Cost of Goods Sold', data: [53229, 54598, 55046, 54291, 54645, 54660, 54532, 54612, 54602, 54582, 54599, 54594],
       expandableRows: [
-        { id: 11, title: 'Cost of Contracting', data: [] },
-        { id: 12, title: 'Overhead', data: [] },
+        { id: 11, title: 'Cost of Contracting', data: [52562, 53931, 54379, 53624, 53978, 53994, 53865, 53946, 53935, 53915, 53932, 53927] },
+        { id: 12, title: 'Overhead', data: [667, 667, 667, 667, 667, 667, 667, 667, 667, 667, 667, 667] },
       ],
     },
-    { id: 13, title: 'Gross Profit', data: [] },
-    { id: 14, title: 'Gross Margin %', data: [] },
+    { id: 13, title: 'Gross Profit', data: [94894, 93658, 92624, 91847, 89090, 85550, 80866, 74500, 66548, 56700, 44659, 26327] },
+    { id: 14, title: 'Gross Margin %', data: [64.1, 63.2, 62.7, 62.8, 62.0, 61.0, 59.7, 57.7, 54.9, 51.0, 45.0, 32.5] },
     { id: 15, title: 'Total Operating Expenses', data: [],
       expandableRows: [
         { id: 16, title: 'Salaries and Benefits', data: [] },
@@ -134,7 +134,7 @@ const SustainabilityModel = () => {
 
     // Sum all scenario effect rows (they have IDs > 2)
     rows.flatMap(row => row.expandableRows || []).forEach((row) => {
-      if (row.id > 2) { // Assuming deductions start at ID 3
+      if (row.id > 2 && row.id < 10) { // Assuming deductions start at ID 3
         totalDeductions = totalDeductions.map((value, i) => value + (row.data[i] || 0));
       }
     });

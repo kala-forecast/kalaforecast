@@ -37,19 +37,19 @@ const FinancialCompilation = () => {
   };
 
   const incomeStatementData = [
-    { id: 1, title: 'Net Sales', AuditData: [1, 2, 3], ForecastData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    { id: 1, title: 'Net Sales', AuditData: [131345, 142341, 150772], ForecastData: [153034, 155329, 157659, 160024, 162424, 164861, 167334, 169844, 172391, 174977, 177602, 180266],
       expandableRows: [
-        { title: 'Revenue', AuditData: [], ForecastData: [] },
+        { title: 'Revenue', AuditData: [131345, 142341, 150772], ForecastData: [153034, 155329, 157659, 160024, 162424, 164861, 167334, 169844, 172391, 174977, 177602, 180266] },
       ],
     },
-    { id: 2, title: 'Cost of Goods Sold', AuditData: [], ForecastData: [],
+    { id: 2, title: 'Cost of Goods Sold', AuditData: [49123, 53254, 57310], ForecastData: [53229, 54598, 55046, 54291, 54645, 54660, 54532, 54612, 54602, 54582, 54599, 54594],
       expandableRows: [
-        { id: 3, title: 'Cost of Contracting', AuditData: [], ForecastData: [] },
-        { id: 4, title: 'Overhead', AuditData: [], ForecastData: [] },
+        { id: 3, title: 'Cost of Contracting', AuditData: [48456, 52587, 56643], ForecastData: [52562, 53931, 54379, 53624, 53978, 53994, 53865, 53946, 53935, 53915, 53932, 53927] },
+        { id: 4, title: 'Overhead', AuditData: [667, 667, 667], ForecastData: [667, 667, 667, 667, 667, 667, 667, 667, 667, 667, 667, 667] },
       ],
     },
-    { id: 5, title: 'Gross Profit', AuditData: [], ForecastData: [] },
-    { id: 6, title: 'Gross Margin %', AuditData: [], ForecastData: [] },
+    { id: 5, title: 'Gross Profit', AuditData: [82222, 89087, 93462], ForecastData: [94894, 93658, 92624, 91847, 89090, 85550, 80866, 74500, 66548, 56700, 44659, 26327] },
+    { id: 6, title: 'Gross Margin %', AuditData: [62.6, 62.6, 62.0], ForecastData: [64.1, 63.2, 62.7, 62.8, 62.0, 61.0, 59.7, 57.7, 54.9, 51.0, 45.0, 32.5] },
     { id: 7, title: 'Total Operating Expenses', AuditData: [], ForecastData: [],
       expandableRows: [
         { id: 8, title: 'Salaries and Benefits', AuditData: [], ForecastData: [] },
@@ -171,10 +171,10 @@ const FinancialCompilation = () => {
               {row.title}
             </th>
             {row.AuditData.map((cell, cellIndex) => (
-              <td key={cellIndex} style={{ backgroundColor: 'lightgrey' }}>{cell}</td>
+              <th key={cellIndex} style={{ backgroundColor: 'lightgrey' }}>{cell}</th>
             ))}
             {row.ForecastData.map((cell, cellIndex) => (
-              <td key={cellIndex}>{cell}</td>
+              <th key={cellIndex}>{cell}</th>
             ))}
           </tr>
 
