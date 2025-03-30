@@ -21,6 +21,7 @@ import StressTest from '../pages/StressTest';
 import GraphPlaceholder from '../pages/GraphPlaceholder';
 import WorkPapers from '../pages/WorkPapers';
 import FinancialCompilation from '../pages/FinancialCompilation';
+import AuditData from '../pages/AuditData';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/stress-test" element={<ProtectedRoute><StressTest /></ProtectedRoute>} />
           <Route path="/graph-placeholder" element={<ProtectedRoute><GraphPlaceholder /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
+          <Route path="/audit-data" element={<AuditProtectedRoute ready={ready}><AuditData /></AuditProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -85,6 +87,19 @@ const AdminProtectedRoute = ({ ready, children }) => {
   return (isLogged && isAdmin) ? children : <Navigate to="/notauthorized" />;
 };
 
+const AuditProtectedRoute = ({ ready, children }) => {
+  const isLogged = Meteor.userId() !== null;
+  if (!isLogged) {
+    return <Navigate to="/signin" />;
+  }
+  if (!ready) {
+    return <LoadingSpinner />;
+  }
+  const isAuditor = Roles.userIsInRole(Meteor.userId(), [ROLE.AUDITOR]);
+  console.log('AdminProtectedRoute', isLogged, isAuditor);
+  return (isLogged && isAuditor) ? children : <Navigate to="/notauthorized" />;
+};
+
 // Require a component and location to be passed to each ProtectedRoute.
 ProtectedRoute.propTypes = {
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
@@ -101,6 +116,17 @@ AdminProtectedRoute.propTypes = {
 };
 
 AdminProtectedRoute.defaultProps = {
+  ready: false,
+  children: <Landing />,
+};
+
+// Require a component and location to be passed to each AuditProtectedRoute.
+AuditProtectedRoute.propTypes = {
+  ready: PropTypes.bool,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+};
+
+AuditProtectedRoute.defaultProps = {
   ready: false,
   children: <Landing />,
 };
