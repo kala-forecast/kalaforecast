@@ -8,6 +8,7 @@ export const COMPONENT_IDS = {
   NAVBAR_GRAPH_PLACEHOLDER: 'navbar-graph-placeholder',
   NAVBAR_CURRENT_USER: 'navbar-current-user',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
+  NAVBAR_AUDIT_DATA: 'navbar-audit-data',
   NAVBAR_COLLAPSE: 'navbar-collapse',
   NAVBAR_LOGIN_DROPDOWN: 'navbar-login-dropdown',
   NAVBAR_LOGIN_DROPDOWN_SIGN_IN: 'navbar-login-dropdown-sign-in',
