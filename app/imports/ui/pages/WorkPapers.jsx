@@ -65,16 +65,14 @@ const WorkPapers = () => {
   }
   // Table data collects the data of the values and is used to occupy the table
   const tableData = useMemo(
-    () =>
-      // Call Calculate Financial Data function with the 5 variables
-      calculateFD(presentValue, interestRate, termInYears, monthlyContribution, yearRange),
+    // Call Calculate Financial Data function with the 5 variables
+    () => calculateFD(presentValue, interestRate, termInYears, monthlyContribution, yearRange),
     [presentValue, interestRate, termInYears, monthlyContribution, yearRange],
   );
   const residualForecastYears = 12; // Forecast for 12 years
   const residualData = useMemo(
-    () =>
-      // Call Residual Effects function with stress effects values and forecast years
-      calculateResidualEffects(monthlyContribution, presentValue, termInYears, residualForecastYears),
+    // Call Residual Effects function with stress effects values and forecast years
+    () => calculateResidualEffects(monthlyContribution, presentValue, termInYears, residualForecastYears),
     [monthlyContribution, presentValue, termInYears, residualForecastYears],
   );
 

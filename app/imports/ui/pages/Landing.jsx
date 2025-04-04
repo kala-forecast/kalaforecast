@@ -58,7 +58,7 @@ const Landing = () => {
                 {/* Text only shows if not logged in */}
                 {!currentUser && (
                   <h5 className="py-2">
-                    Please log in to get started! If you're a new user, reach out to a system admin for account creation.
+                    Please log in to get started! If you&apos;re a new user, reach out to a system admin for account creation.
                   </h5>
                 )}
               </div>
