@@ -22,6 +22,7 @@ import GraphPlaceholder from '../pages/GraphPlaceholder';
 import WorkPapers from '../pages/WorkPapers';
 import FinancialCompilation from '../pages/FinancialCompilation';
 import AuditData from '../pages/AuditData';
+import Admin from '../pages/Admin';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -37,8 +38,9 @@ const App = () => {
         <NavBar />
         <Routes>
           <Route exact path="/" element={<Landing />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup" element={<AdminProtectedRoute ready={ready}><SignUp /></AdminProtectedRoute>} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/landing" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/sustainability-model" element={<ProtectedRoute><SustainabilityModel /></ProtectedRoute>} />

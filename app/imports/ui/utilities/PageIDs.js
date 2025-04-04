@@ -18,4 +18,5 @@ export const PAGE_IDS = {
   EDIT_WORKPAPER: 'edit-workpaper',
   FINANCIAL_COMPILATION: 'financial-compilation',
   AUDIT_DATA: 'audit-data',
+  ADMIN: 'admin',
 };
