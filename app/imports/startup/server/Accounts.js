@@ -9,22 +9,28 @@ import { ExecutiveProfiles } from '../../api/user/ExecutiveProfileCollection';
 Meteor.methods({
   createNewUser: ({ email, role, firstName, lastName, password }) => {
     console.log(`  Creating user ${email} with role ${role}.`);
-    console.log(typeof email);
+    // Temporary; role isn't case sensitive 'ADMIN' = 'admin', ...
+    // Will be dropdown option
+    const normalizedRole = role.toLowerCase();
     let collection;
-    switch (role) {
-    case 'admin': collection = AdminProfiles;
+    switch (normalizedRole) {
+    case 'admin':
+      collection = AdminProfiles;
       break;
-    case 'analyst': collection = AnalystProfiles;
+    case 'analyst':
+      collection = AnalystProfiles;
       break;
-    case 'auditor': collection = AuditorProfiles;
+    case 'auditor':
+      collection = AuditorProfiles;
       break;
-    case 'executive': collection = ExecutiveProfiles;
+    case 'executive':
+      collection = ExecutiveProfiles;
       break;
     default:
       break;
     }
 
-    UserProfiles.define({ email, firstName, lastName, password });
+    UserProfiles.define({ email, firstName, lastName, password, role });
     collection.define({ email, firstName, lastName, password });
   },
 });

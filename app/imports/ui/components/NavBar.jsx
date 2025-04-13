@@ -4,7 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Navbar, Nav, NavDropdown, Image } from 'react-bootstrap';
-import { BoxArrowRight, CloudDownload, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
+import { BoxArrowRight, PersonFill } from 'react-bootstrap-icons';
 import { ROLE } from '../../api/role/Role';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
@@ -26,25 +26,60 @@ const NavBar = () => {
               <Nav.Link id={COMPONENT_IDS.NAVBAR_FINANCIAL_COMPILATION} as={NavLink} to="/financial-compilation" key="financial-compilation">Financial Compilation</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_STRESS_TEST_MODEL} as={NavLink} to="/stress-test" key="stress-test">Stress Test</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_SUSTAINABILITY_MODEL} as={NavLink} to="/sustainability-model" key="sustainability-model">Sustainability Model</Nav.Link>,
-              <NavDropdown id={COMPONENT_IDS.NAVBAR_WORKPAPERS_DROPDOWN} title="Workpapers">
-                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_EDIT_WORKPAPER} as={NavLink} to="/edit-workpaper" key="edit-workpaper">Edit Workpaper</NavDropdown.Item>
-                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_WORKPAPERS} as={NavLink} to="/workpapers" key="workpapers">View Workpapers</NavDropdown.Item>
+              <NavDropdown
+                title="Workpapers"
+                id={COMPONENT_IDS.NAVBAR_WORKPAPERS}
+                key="workpapers"
+              >
+                <NavDropdown.Item
+                  as={NavLink}
+                  to="/workpapers"
+                  key="workpaper1"
+                >
+                  Work Paper 1
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={NavLink}
+                  to="/workpaper2"
+                  key="workpaper2"
+                >
+                  Work Paper 2
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={NavLink}
+                  to="/workpaper3"
+                  key="workpaper3"
+                >
+                  Work Paper 3
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={NavLink}
+                  to="/workpaper4"
+                  key="workpaper4"
+                >
+                  Work Paper 4
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={NavLink}
+                  to="/workpaper5"
+                  key="workpaper5"
+                >
+                  Work Paper 5
+                </NavDropdown.Item>
               </NavDropdown>,
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_GRAPH_PLACEHOLDER} as={NavLink} to="/graph-placeholder" key="graph-placeholder">Graph Placeholder</Nav.Link>,
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_VISUALIZATION} as={NavLink} to="/visualization" key="visualization">Visualization</Nav.Link>,
             ]) : ''}
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN, ROLE.EXECUTIVE]) ? (
               [<Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Admin</Nav.Link>,
-                <NavDropdown id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN} title="Manage" key="manage-dropdown">
-                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN_DATABASE} key="manage-database" as={NavLink} to="/manage-database"><CloudDownload /> Database</NavDropdown.Item>
-                </NavDropdown>]
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN_DATABASE} as={NavLink} to="/manage-database" key="executive">Manage Database</Nav.Link>]
+            ) : ''}
+            {Roles.userIsInRole(Meteor.userId(), [ROLE.AUDITOR]) ? (
+              [<Nav.Link id={COMPONENT_IDS.NAVBAR_AUDIT_DATA} as={NavLink} to="/audit-data" key="audit-data">Audit Data</Nav.Link>]
             ) : ''}
           </Nav>
           <Nav className="justify-content-end">
             {currentUser === '' ? (
-              <NavDropdown id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN} title="Login">
-                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill className="me-2" />Sign in</NavDropdown.Item>
-                <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP} as={NavLink} to="/signup"><PersonPlusFill className="me-2" />Sign up</NavDropdown.Item>
-              </NavDropdown>
+              <NavLink id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin" key="sign-in"><PersonFill className="me-2" />Login</NavLink>
             ) : (
               <NavDropdown id={COMPONENT_IDS.NAVBAR_CURRENT_USER} title={currentUser}>
                 <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_SIGN_OUT} as={NavLink} to="/signout"><BoxArrowRight className="me-2" /> Sign out</NavDropdown.Item>

@@ -39,15 +39,6 @@ const Landing = () => {
                       Login
                     </Button>
                     <br />
-                    <Button
-                      as={Link}
-                      to="/signup"
-                      variant="outline-primary"
-                      size="lg"
-                      className="btn-minwidth"
-                    >
-                      Sign Up
-                    </Button>
                   </div>
                 )}
               </div>
@@ -67,7 +58,7 @@ const Landing = () => {
                 {/* Text only shows if not logged in */}
                 {!currentUser && (
                   <h5 className="py-2">
-                    Please log in or sign up to get started!
+                    Please log in to get started! If you're a new user, reach out to a system admin for account creation.
                   </h5>
                 )}
               </div>
