@@ -19,4 +19,5 @@ export const PAGE_IDS = {
   FINANCIAL_COMPILATION: 'financial-compilation',
   AUDIT_DATA: 'audit-data',
   ADMIN: 'admin',
+  VISUALIZATION: 'visualization',
 };
