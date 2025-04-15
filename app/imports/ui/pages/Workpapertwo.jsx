@@ -76,7 +76,7 @@ const Workpaper2 = () => {
       {/* Optional: Scenario Inputs for adjusting the percent drop and return rate */}
       <Card className="mb-4">
         <Card.Header>Scenario Inputs</Card.Header>
-        <Card.Body style={{ maxHeight: '230px', overflowY: 'auto' }}>
+        <Card.Body style={{ maxHeight: '150px', overflowY: 'auto' }}>
           <Form>
             <Row>
               <Col md={6}>
