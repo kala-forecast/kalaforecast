@@ -2,72 +2,83 @@ import React, { useState, useMemo } from 'react';
 import { Container, Table, Form, Row, Col, Card } from 'react-bootstrap';
 
 const Workpaper2 = () => {
-  const [baseRevenue, setBaseRevenue] = useState(153034);
+  // Even though you might have inputs for percentDrop and returnRate,
+  // the total revenues are preset from your spreadsheet.
   const [percentDrop, setPercentDrop] = useState(2.25);
-  const [forecastYears, setForecastYears] = useState(12);
   const [returnRate, setReturnRate] = useState(6.02);
 
+  // Preset total revenue data for each fiscal year
+  // (You can adjust these values to match your exact sheet.)
+  const presetRevenues = [
+    { year: 2025, revenue: 153034 },
+    { year: 2026, revenue: 155329 },
+    { year: 2027, revenue: 157659 },
+    { year: 2028, revenue: 160024 },
+    { year: 2029, revenue: 162424 },
+    { year: 2030, revenue: 164861 },
+    { year: 2031, revenue: 167334 },
+    { year: 2032, revenue: 169844 },
+    { year: 2033, revenue: 172391 },
+    { year: 2034, revenue: 174977 },
+    { year: 2035, revenue: 177602 },
+    { year: 2036, revenue: 180266 },
+  ];
+
+  // Number of forecast years is the length of the preset array.
+  const forecastYears = presetRevenues.length;
+
+  // Create the Stress Table by applying the “decrease” function to the preset revenues.
+  // Here, the decrease is computed as 2.25% of the preset revenue (as a negative value)
   const stressData = useMemo(() => {
-    const results = [];
-    let revenue = baseRevenue;
-    for (let i = 0; i < forecastYears; i++) {
-      const year = 2025 + i;
-      const decrease = revenue * (percentDrop / 100);
-      results.push({
-        year,
-        revenue: Math.round(revenue),
-        decrease: Math.round(decrease),
-      });
-      revenue += decrease;
-    }
-    return results;
-  }, [baseRevenue, percentDrop, forecastYears]);
+    return presetRevenues.map(({ year, revenue }) => ({
+      year,
+      revenue,
+      decrease: Math.round(revenue * (-percentDrop / 100)),
+    }));
+  }, [presetRevenues, percentDrop]);
 
+  // Create the Residual Effects Table based on the stressData.
+  // For each year, we take the absolute value of the decrease as the principal,
+  // then sum the compound lost interest on all losses (including the current year)
+  // using the formula:
+  //    Interest Lost = principal * ((1 + returnRate/100)^(i - j + 1) - 1)
+  // where i = index of current year and j = index of the loss year.
   const residualData = useMemo(() => {
-    const principalArray = stressData.map(d => d.decrease);
+    // Get an array of principal amounts (absolute value of the decrease)
+    const principalArray = stressData.map(d => Math.abs(d.decrease));
     const results = [];
 
     for (let i = 0; i < forecastYears; i++) {
-      const year = 2025 + i;
-      let yearlyLoss = 0;
+      const year = presetRevenues[i].year;
+      let totalInterestLost = 0;
 
+      // Sum compound interest on all losses from year 0 up through the current year.
+      // We use i - j + 1 to assume that each loss immediately “ages” one year.
       for (let j = 0; j <= i; j++) {
         const principal = principalArray[j];
-        const years = i - j + 1;
-        const interest = principal * Math.pow(1 + returnRate / 100, years) - principal;
-        yearlyLoss += interest;
+        const yearsElapsed = i - j + 1;
+        const interest = principal * (Math.pow(1 + returnRate / 100, yearsElapsed) - 1);
+        totalInterestLost += interest;
       }
 
       results.push({
         year,
         principal: principalArray[i],
-        interestLost: Math.round(yearlyLoss),
+        totalInterestLost: Math.round(totalInterestLost),
       });
     }
 
     return results;
-  }, [stressData, forecastYears, returnRate]);
+  }, [stressData, presetRevenues, forecastYears, returnRate]);
 
   return (
     <Container id="WORKPAPER2" className="py-4">
-      {/* Scenario Inputs Section */}
-      <Card className="mb-4" >
-        <Card.Header >Scenario Inputs</Card.Header>
+      {/* Optional: Scenario Inputs for adjusting the percent drop and return rate */}
+      <Card className="mb-4">
+        <Card.Header>Scenario Inputs</Card.Header>
         <Card.Body style={{ maxHeight: '230px', overflowY: 'auto' }}>
-          <Form style={{ marginBottom: 0 }}>
+          <Form>
             <Row>
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label>Base Year Revenue</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={baseRevenue}
-                    onChange={(e) => setBaseRevenue(Number(e.target.value))}
-                    min={0}
-                    style={{ width: '100%' }}
-                  />
-                </Form.Group>
-              </Col>
               <Col md={6}>
                 <Form.Group>
                   <Form.Label>% Decrease</Form.Label>
@@ -78,20 +89,6 @@ const Workpaper2 = () => {
                     onChange={(e) => setPercentDrop(Number(e.target.value))}
                     min={0}
                     max={100}
-                    style={{ width: '100%' }}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row className="mt-3">
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label>Forecast Years</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={forecastYears}
-                    onChange={(e) => setForecastYears(Number(e.target.value))}
-                    min={1}
                     style={{ width: '100%' }}
                   />
                 </Form.Group>
@@ -150,8 +147,8 @@ const Workpaper2 = () => {
             <Table striped bordered hover>
               <thead className="bg-primary text-white">
                 <tr>
-                  <th>Year</th>
-                  <th>Principal</th>
+                  <th>Fiscal Year</th>
+                  <th>Principal (Lost Revenue)</th>
                   <th>Total Interests Lost</th>
                 </tr>
               </thead>
@@ -160,7 +157,7 @@ const Workpaper2 = () => {
                   <tr key={row.year}>
                     <td>{row.year}</td>
                     <td>{`$${row.principal.toLocaleString()}`}</td>
-                    <td>{`$${row.interestLost.toLocaleString()}`}</td>
+                    <td>{`$${row.totalInterestLost.toLocaleString()}`}</td>
                   </tr>
                 ))}
               </tbody>
