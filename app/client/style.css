@@ -89,3 +89,10 @@ p, h1, h2, h3, h4, h5 , button, .navbar, .footer, .text-field, .card-description
   padding: 1.5rem;
   border-radius: 0.5rem;
 }
+
+/* Financial Compilation Styling */
+.centered-cell {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
