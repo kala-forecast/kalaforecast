@@ -86,48 +86,53 @@ const FiscalSustainabilityModel = () => {
 
   // Function to export CSV
   const exportToCSV = () => {
-    // Create CSV header row
-    const forecastYears = Array.from({ length: 12 }, (_, i) => `Forecast ${2025 + i}`);
-    const header = [
-      'Stress Test',
-      'Scenario',
-      'Priority Label',
-      'Priority SubLabel',
-      'Toggle',
-      ...forecastYears,
-    ];
-    const csvRows = [header.join(',')];
+  const forecastYears = Array.from({ length: 12 }, (_, i) => `Forecast ${2025 + i}`);
+  const header = [
+    'Stress Test',
+    'Scenario',
+    'Priority Label',
+    'Priority SubLabel',
+    'Toggle',
+    ...forecastYears,
+  ];
+  const csvRows = [header.join(',')];
 
-    // Loop through data and each priority row
-    data.forEach((row, index) => {
-      row.priorities.forEach((priority, pIndex) => {
-        const toggleKey = `${index}-${pIndex}`;
-        const toggleValue = toggleStates[toggleKey] ? 'On' : 'Off';
-        // Placeholder empty forecast columns
-        const forecastData = Array(12).fill('');
-        const csvRow = [
-          // Repeat stress and scenario for each priority row
-          `"${row.stress}"`,
-          `"${row.scenario}"`,
-          `"${priority.label}"`,
-          `"${priority.subLabel}"`,
-          toggleValue,
-          ...forecastData,
-        ];
-        csvRows.push(csvRow.join(','));
+  data.forEach((row, index) => {
+    row.priorities.forEach((priority, pIndex) => {
+      const toggleKey = `${index}-${pIndex}`;
+      const toggleValue = toggleStates[toggleKey] ? 'On' : 'Off';
+      const chartKey = `${index}-${pIndex}`;
+      const values = forecastValues[chartKey] || Array(12).fill('');
+
+      const formattedValues = values.map((v) => {
+        if (v === null || v === undefined) return '-';
+        return v;
       });
-    });
 
-    const csvContent = csvRows.join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'fiscal_sustainability_data.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+      const csvRow = [
+        `"${row.stress}"`,
+        `"${row.scenario}"`,
+        `"${priority.label}"`,
+        `"${priority.subLabel}"`,
+        toggleValue,
+        ...formattedValues,
+      ];
+
+      csvRows.push(csvRow.join(','));
+    });
+  });
+
+  const csvContent = csvRows.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'fiscal_sustainability_data.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 
   return (
     <div className="container p-4">
