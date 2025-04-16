@@ -1,5 +1,6 @@
 /* Use Open Sans as the default sans serif font. */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700");
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* Set up CSS variables for a modern theme. */
 :root {
@@ -12,7 +13,7 @@
 /* Set Bootstrap variable values and base font styling. */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif !important;
   background-color: var(--light-color);
   color: var(--dark-color);
 }
@@ -20,7 +21,7 @@ body {
 /* Landing header styling */
 .landing-header {
   height: 80lvh;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 /* Button min-width class for login/sign up buttons */
@@ -79,14 +80,15 @@ body {
   margin-top: 0.5rem;
 }
 
-p, h1, h2, h3, h4, h5 , button, .navbar, .footer, .text-field, .card-description {
-  font-family: 'Open Sans', sans-serif;
+p, h1, h2, h3, h4, h5 , th, tr, td, button, .navbar, .footer, .text-field, .card-description {
+  font-family: 'IBM Plex Sans', sans-serif !important;
 }
 
 .custom-dropdown-panel {
   background-color: #333a5f;
   color: #f1f1f1;
   padding: 1.5rem;
+
   border-radius: 0.5rem;
 }
 
