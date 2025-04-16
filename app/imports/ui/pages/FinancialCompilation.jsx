@@ -1,9 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
-import { Container, Button, Table, Tabs, Tab, Form, InputGroup } from 'react-bootstrap';
-import { CaretRightFill, CaretDownFill, PlusCircle, DashCircle } from 'react-bootstrap-icons';
+import { Container, Button, Table, Tabs, Tab, Form, InputGroup, Modal } from 'react-bootstrap';
+import { CaretRightFill, CaretDownFill, PlusCircle, DashCircle, GraphUp } from 'react-bootstrap-icons';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import '../../../client/style.css';
+
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const FinancialCompilation = () => {
   const auditData = [
@@ -84,7 +88,9 @@ const FinancialCompilation = () => {
   const balanceSheetData = auditData.filter((item) => item.id >= 29); // Everything from Total Current Assets onward
 
   const [expandedRows, setExpandedRows] = useState({});
-  const [forecastYears, setForecastYears] = useState(8); // initial forecast years
+  const [forecastYears, setForecastYears] = useState(8);
+  const [selectedChartRow, setSelectedChartRow] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const defaultMultiplier = 1.5;
 
   const generateInitialState = (data) => {
@@ -103,8 +109,7 @@ const FinancialCompilation = () => {
   };
 
   const { options: initialOptions, inputs: initialInputs } = generateInitialState([
-    ...incomeStatementData,
-    // add more datasets here if needed (like assetsData or liabilitiesEquityData)
+    ...incomeStatementData, ...balanceSheetData,
   ]);
 
   const [selectedOptions, setSelectedOptions] = useState(initialOptions);
@@ -133,6 +138,15 @@ const FinancialCompilation = () => {
       [rowId]: numericValue,
     }));
   };
+
+  const handleShowChart = (row) => {
+    setSelectedChartRow(row);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  }
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -185,6 +199,18 @@ const FinancialCompilation = () => {
     return Array(forecastYears).fill('');
   };
 
+  const chartData = selectedChartRow && {
+    labels: ['2022', '2023', '2024', ...Array.from({ length: forecastYears }, (_, i) => 2025 + i)],
+    datasets: [
+      {
+        label: selectedChartRow.title,
+        data: [...selectedChartRow.AuditData, ...generateForecastData(selectedChartRow)],
+        borderColor: 'rgba(75,192,192,1)',
+        fill: false,
+      },
+    ],
+  };
+
   const renderTable = (dataset) => (
     <>
       {dataset
@@ -235,12 +261,26 @@ const FinancialCompilation = () => {
                 )}
                 {row.title}
               </th>
+
               {row.AuditData.map((cell, idx) => (
-                <th key={idx} className="centered-cell" style={{ backgroundColor: 'lightgrey' }}>{formatValue(row.id, cell)}</th>
-              ))}
+                  <th key={idx} className="centered-cell" style={{ backgroundColor: 'lightgrey' }}>
+                    {formatValue(row.id, cell)}
+                  </th>
+                ))}
+
               {generateForecastData(row).map((cell, idx) => (
-                <th key={idx} className="centered-cell">{formatValue(row.id, cell)}</th>
+                  <th key={idx} className="centered-cell">
+                    {formatValue(row.id, cell)}
+                  </th>
               ))}
+              <td className="text-end">
+                <GraphUp
+                  className="text-primary"
+                  role="button"
+                  onClick={() => handleShowChart(row)}
+                  style={{ cursor: 'pointer' }}
+                />
+              </td>
             </tr>
 
             {expandedRows[row.id] && row.expandableRows.filter(expandableRows => expandableRows.AuditData && expandableRows.AuditData.length >= 3).map((expandable) => (
@@ -323,6 +363,33 @@ const FinancialCompilation = () => {
           </Table>
         </Tab>
       </Tabs>
+      <Modal show={showModal} onHide={handleCloseModal} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedChartRow?.title} Forecast</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedChartRow && (
+            <Line
+              data={{
+                labels: ['2022', '2023', '2024', ...Array.from({ length: forecastYears }, (_, i) => 2025 + i)],
+                datasets: [
+                  {
+                    label: selectedChartRow.title,
+                    data: [
+                      ...selectedChartRow.AuditData,
+                      ...generateForecastData(selectedChartRow),
+                    ],
+                    borderColor: 'rgba(75,192,192,1)',
+                    fill: false,
+                    tension: 0.3,
+                  },
+                ],
+              }}
+              options={{ responsive: true }}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };
@@ -334,12 +401,13 @@ const Header = ({ forecastYears }) => {
 
   return (
     <thead>
-      <tr className="text-center" style={{ border: '1px solid #628fca' }}>
+      <tr className="text-center">
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <th>Forecast Type</th>
-        <th>Metric</th>
-        <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey' }}>Actual Data</th>
-        <th colSpan={forecastYears}>Forecast Data</th>
+        <th style={{ border: '1px solid #628fca' }}>Forecast Type</th>
+        <th style={{ border: '1px solid #628fca' }}>Metric</th>
+        <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>Actual Data</th>
+        <th colSpan={forecastYears} style={{ border: '1px solid #628fca' }}>Forecast Data</th>
+        <th />
       </tr>
       <tr className="text-center">
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
