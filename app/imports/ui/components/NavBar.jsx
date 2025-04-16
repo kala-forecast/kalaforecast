@@ -26,47 +26,13 @@ const NavBar = () => {
               <Nav.Link id={COMPONENT_IDS.NAVBAR_FINANCIAL_COMPILATION} as={NavLink} to="/financial-compilation" key="financial-compilation">Financial Compilation</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_STRESS_TEST_MODEL} as={NavLink} to="/stress-test" key="stress-test">Stress Test</Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_SUSTAINABILITY_MODEL} as={NavLink} to="/sustainability-model" key="sustainability-model">Sustainability Model</Nav.Link>,
-              <NavDropdown
-                title="Workpapers"
-                id={COMPONENT_IDS.NAVBAR_WORKPAPERS}
-                key="workpapers"
-              >
-                <NavDropdown.Item
+              <Nav.Link
                   as={NavLink}
                   to="/workpapers"
-                  key="workpaper1"
+                  key="workpapers"
                 >
-                  Work Paper 1
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper2"
-                  key="workpaper2"
-                >
-                  Work Paper 2
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper3"
-                  key="workpaper3"
-                >
-                  Work Paper 3
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper4"
-                  key="workpaper4"
-                >
-                  Work Paper 4
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper5"
-                  key="workpaper5"
-                >
-                  Work Paper 5
-                </NavDropdown.Item>
-              </NavDropdown>,
+                  Work Paper
+              </Nav.Link>,
               <Nav.Link id={COMPONENT_IDS.NAVBAR_VISUALIZATION} as={NavLink} to="/visualization" key="visualization">Visualization</Nav.Link>,
             ]) : ''}
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN, ROLE.EXECUTIVE]) ? (

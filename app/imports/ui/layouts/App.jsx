@@ -20,7 +20,6 @@ import EditWorkpaper from '../pages/EditWorkpaper';
 import StressTest from '../pages/StressTest';
 import GraphPlaceholder from '../pages/GraphPlaceholder';
 import WorkPapers from '../pages/WorkPapers';
-import Workpaper2 from '../pages/Workpapertwo';
 import FinancialCompilation from '../pages/FinancialCompilation';
 import AuditData from '../pages/AuditData';
 import Admin from '../pages/Admin';
@@ -49,7 +48,6 @@ const App = () => {
           <Route path="/financial-compilation" element={<ProtectedRoute><FinancialCompilation /></ProtectedRoute>} />
           <Route path="/edit-workpaper" element={<ProtectedRoute><EditWorkpaper /></ProtectedRoute>} />
           <Route path="/workpapers" element={<ProtectedRoute><WorkPapers /></ProtectedRoute>} />
-          <Route path="/workpaper2" element={<ProtectedRoute><Workpaper2 /></ProtectedRoute>} />
           <Route path="/stress-test" element={<ProtectedRoute><StressTest /></ProtectedRoute>} />
           <Route path="/graph-placeholder" element={<ProtectedRoute><GraphPlaceholder /></ProtectedRoute>} />
           <Route path="/visualization" element={<ProtectedRoute><Visualization /></ProtectedRoute>} />
