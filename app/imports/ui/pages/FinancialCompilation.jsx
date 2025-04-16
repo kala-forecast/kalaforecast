@@ -8,7 +8,7 @@ const FinancialCompilation = () => {
   const incomeStatementData = [
     {
       id: 1, title: 'Net Sales',
-      AuditData: [131345, 142341, 150772],
+      AuditData: Object.freeze([131345, 142341, 150772]),
       expandableRows: [{ id: 100, title: 'Revenue', AuditData: [131345, 142341, 150772] }],
     },
     {
@@ -83,43 +83,36 @@ const FinancialCompilation = () => {
   const generateForecastData = (row) => {
     const option = selectedOptions[row.id];
     const multiplier = percentageInputs[row.id];
-    const data = [...row.AuditData]; // Copy of the AuditData array
 
     if (option === 'option1') {
-      // Average Mode: Calculate average including all years (past + forecasted)
-      const allValues = [...data]; // Start with the AuditData
-
-      // Create forecast based on all past data
       const forecasts = [];
+      const allValues = [...row.AuditData];
+
       for (let i = 0; i < forecastYears; i++) {
-        // Calculate average based on all available years up to this point (including forecasted values)
-        const sum = allValues.reduce((a, b) => a + b, 0);
-        const avg = Math.round(sum / allValues.length);
-        forecasts.push(avg);
-        allValues.push(avg); // Add forecast to allValues for next year
+        const recentData = allValues.slice(-3);
+        const sum = recentData.reduce((acc, val) => acc + val, 0);
+        const avg = sum / recentData.length;
+        forecasts.push(Math.round(avg));
+        allValues.push(avg);
       }
 
       return forecasts;
-
     }
 
     if (option === 'option2') {
-      // Multiplier Mode: Use previous forecast year as base
       const forecasts = [];
+      const allValues = [...row.AuditData];
+      let lastValue = allValues[allValues.length - 1];
 
-      // Start with the last audited data value (2024 in this case)
-      let lastForecast = data[data.length - 1];
-      forecasts.push(Math.round(lastForecast * (1 + multiplier / 100))); // 2025 forecast is based on 2024 (last audited data)
-
-      for (let i = 1; i < forecastYears; i++) {
-        lastForecast *= (1 + multiplier / 100); // Apply multiplier
-        forecasts.push(Math.round(lastForecast)); // Round off the forecast for the current year
+      for (let i = 0; i < forecastYears; i++) {
+        lastValue = lastValue * (1 + multiplier / 100);
+        forecasts.push(Math.round(lastValue));
       }
 
       return forecasts;
     }
 
-    return Array(forecastYears).fill(''); // Default empty values if no valid option
+    return Array(forecastYears).fill('');
   };
 
   const renderTable = (dataset) => (
@@ -154,7 +147,8 @@ const FinancialCompilation = () => {
                       className="mt-2"
                       min="0"
                       max="100"
-                      step="any"
+                      step="0.1"
+                      style={{ width: '40px' }}
                     />
                     <InputGroup.Text size="sm">%</InputGroup.Text>
                   </InputGroup>
@@ -206,7 +200,8 @@ const FinancialCompilation = () => {
                         className="mt-2"
                         min="0"
                         max="100"
-                        step="any"
+                        step="0.1"
+                        style={{ width: '40px' }}
                       />
                       <InputGroup.Text size="sm">%</InputGroup.Text>
                     </InputGroup>
@@ -239,8 +234,8 @@ const FinancialCompilation = () => {
         </Button>
       </div>
       <Tabs defaultActiveKey="income-statement" className="mb-3" justify>
-        <Tab eventKey="income-statement" title="Income Statement">
-          <Table striped bordered hover>
+        <Tab eventKey="income-statement" title="Income Statement" style={{ border: '1px solid #628fca' }}>
+          <Table striped bordered hover className="mb-0">
             <Header forecastYears={forecastYears} />
             <tbody>
               {renderTable(incomeStatementData)}
@@ -258,21 +253,23 @@ const Header = ({ forecastYears }) => {
   const futureYears = Array.from({ length: forecastYears }, (_, i) => 2025 + i);
 
   return (
-    <thead>
-      <tr className="text-center">
+    <thead >
+      <tr className="text-center" style={{ border: '1px solid #628fca' }}>
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <th colSpan="2" />
+        <th>Forecast Type</th>
+        <th>Metric</th>
         <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey' }}>Actual Data</th>
         <th colSpan={forecastYears}>Forecast Data</th>
       </tr>
       <tr className="text-center">
-        <th>Forecast Type</th>
-        <th>Metric</th>
+        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+        <th colSpan="2" style={{ backgroundColor: '#628fca' }} />
+
         {actualYears.map((year, idx) => (
-          <th key={idx} style={{ backgroundColor: 'lightgrey' }}>{year}</th>
+          <th key={idx} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>{year}</th>
         ))}
         {futureYears.map((year, idx) => (
-          <th key={idx}>{year}</th>
+          <th key={idx} style={{ backgroundColor: '#628fca' }}>{year}</th>
         ))}
       </tr>
     </thead>
