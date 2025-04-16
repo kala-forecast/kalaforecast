@@ -12,75 +12,75 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 const FinancialCompilation = () => {
   const auditData = [
     { id: 1, title: 'Net Sales', AuditData: Object.freeze([131345, 142341, 150772]), expandableRows: [
-      { id: 100, title: 'Revenue', AuditData: [131345, 142341, 150772] }] },
+        { id: 100, title: 'Revenue', AuditData: [131345, 142341, 150772] }] },
     { id: 2, title: 'Cost of Goods Sold', AuditData: [49123, 53254, 57310], expandableRows: [
-      { id: 3, title: 'Cost of Contracting', AuditData: [48456, 52587, 56643] },
-      { id: 4, title: 'Overhead', AuditData: [667, 667, 667] },
-    ],
+        { id: 3, title: 'Cost of Contracting', AuditData: [48456, 52587, 56643] },
+        { id: 4, title: 'Overhead', AuditData: [667, 667, 667] },
+      ],
     },
     { id: 5, title: 'Gross Profit', AuditData: [82222, 89087, 93462] },
     { id: 6, title: 'Gross Margin %', AuditData: [62.6, 62.6, 62.0] },
     { id: 7, title: 'Total Operating Expenses', AuditData: [52589, 52564, 52930], expandableRows: [
-      { id: 8, title: 'Salaries and Benefits', AuditData: [24040, 24096, 24460] },
-      { id: 9, title: 'Rent and Overhead', AuditData: [10840, 11091, 11114] },
-      { id: 10, title: 'Depreciation and Amortization', AuditData: [16610, 16411, 16367] },
-      { id: 11, title: 'Interest', AuditData: [1100, 967, 989] },
-      { id: 12, title: 'Scenario 3 - Stress Effect', AuditData: [] },
-      { id: 13, title: 'Scenario 4 - Stress Effect', AuditData: [] },
-      { id: 14, title: 'Scenario 5 - Stress Effect', AuditData: [] },
-    ],
+        { id: 8, title: 'Salaries and Benefits', AuditData: [24040, 24096, 24460] },
+        { id: 9, title: 'Rent and Overhead', AuditData: [10840, 11091, 11114] },
+        { id: 10, title: 'Depreciation and Amortization', AuditData: [16610, 16411, 16367] },
+        { id: 11, title: 'Interest', AuditData: [1100, 967, 989] },
+        { id: 12, title: 'Scenario 3 - Stress Effect', AuditData: [] },
+        { id: 13, title: 'Scenario 4 - Stress Effect', AuditData: [] },
+        { id: 14, title: 'Scenario 5 - Stress Effect', AuditData: [] },
+      ],
     },
     { id: 15, title: 'Operating Expenses %', AuditData: [34.4, 33.8, 33.6] },
     { id: 16, title: 'Profit (loss) from Operations', AuditData: [52589, 52564, 52930] },
     { id: 17, title: 'Profit (loss) from Operations %', AuditData: [34.4, 33.8, 33.6] },
     { id: 18, title: 'Total Other Income (expense)', AuditData: [], expandableRows: [
-      { id: 19, title: 'Interest Income', AuditData: [] },
-      { id: 20, title: 'Interest Expense', AuditData: [] },
-      { id: 21, title: 'Gain (loss) on disposal of assets', AuditData: [] },
-      { id: 22, title: 'Other income (expense)', AuditData: [] },
-    ],
+        { id: 19, title: 'Interest Income', AuditData: [] },
+        { id: 20, title: 'Interest Expense', AuditData: [] },
+        { id: 21, title: 'Gain (loss) on disposal of assets', AuditData: [] },
+        { id: 22, title: 'Other income (expense)', AuditData: [] },
+      ],
     },
     { id: 23, title: 'Total other income (expense) %', AuditData: [] },
     { id: 24, title: 'Income (loss) before income taxes', AuditData: [35668, 37705, 37733] },
     { id: 25, title: 'Pre-tax income %', AuditData: [23.3, 24.3, 23.9] },
     { id: 26, title: 'Net Income (loss)', AuditData: [25338, 26759, 26775], expandableRows: [
-      { id: 27, title: 'Income taxes', AuditData: [10330, 10945, 10958] },
-    ],
+        { id: 27, title: 'Income taxes', AuditData: [10330, 10945, 10958] },
+      ],
     },
     { id: 28, title: 'Net Income (loss) %', AuditData: [16.6, 17.2, 17.0] },
 
     { id: 29, title: 'Total Current Assets', AuditData: [205752, 207633, 207272], expandableRows: [
-      { id: 30, title: 'Cash and cash equivalents', AuditData: [188111, 189577, 189079] },
-      { id: 31, title: 'Accounts receivable', AuditData: [7074, 7243, 7286] },
-      { id: 32, title: 'Inventory', AuditData: [10566, 10813, 10907] },
-    ],
+        { id: 30, title: 'Cash and cash equivalents', AuditData: [188111, 189577, 189079] },
+        { id: 31, title: 'Accounts receivable', AuditData: [7074, 7243, 7286] },
+        { id: 32, title: 'Inventory', AuditData: [10566, 10813, 10907] },
+      ],
     },
     { id: 33, title: 'Total Long-Term Assets', AuditData: [62089, 69404, 73005], expandableRows: [
-      { id: 34, title: 'Property, plant, and equipment', AuditData: [38756, 38293, 38190] },
-      { id: 35, title: 'Investment', AuditData: [23333, 31111, 34815] },
-      { id: 36, title: 'Scenario 1 - Stress Effect', AuditData: [] },
-      { id: 37, title: 'Scenario 2 - Stress Effect', AuditData: [] },
-    ],
+        { id: 34, title: 'Property, plant, and equipment', AuditData: [38756, 38293, 38190] },
+        { id: 35, title: 'Investment', AuditData: [23333, 31111, 34815] },
+        { id: 36, title: 'Scenario 1 - Stress Effect', AuditData: [] },
+        { id: 37, title: 'Scenario 2 - Stress Effect', AuditData: [] },
+      ],
     },
     { id: 38, title: 'TOTAL ASSETS', AuditData: [267841, 277037, 280277] },
 
     { id: 39, title: 'Total Current Liabilities (due within 1 year)', AuditData: [14169, 14167, 13687], expandableRows: [
-      { id: 40, title: 'Accounts payable', AuditData: [5283, 5406, 5453] },
-      { id: 41, title: 'Debt Service', AuditData: [5000, 5000, 5000] },
-      { id: 42, title: 'Taxes payable', AuditData: [3887, 3761, 3234] },
-    ],
+        { id: 40, title: 'Accounts payable', AuditData: [5283, 5406, 5453] },
+        { id: 41, title: 'Debt Service', AuditData: [5000, 5000, 5000] },
+        { id: 42, title: 'Taxes payable', AuditData: [3887, 3761, 3234] },
+      ],
     },
     { id: 43, title: 'Total Long-term Liabilities (due after one year)', AuditData: [58333, 66111, 69815], expandableRows: [
-      { id: 44, title: 'Debt service', AuditData: [15000, 15000, 15000] },
-      { id: 45, title: 'Loans payable', AuditData: [43333, 51111, 54815] },
-      { id: 46, title: 'Scenario 5 - Stress Effect', AuditData: [] },
-    ],
+        { id: 44, title: 'Debt service', AuditData: [15000, 15000, 15000] },
+        { id: 45, title: 'Loans payable', AuditData: [43333, 51111, 54815] },
+        { id: 46, title: 'Scenario 5 - Stress Effect', AuditData: [] },
+      ],
     },
     { id: 47, title: 'Total Liabilities', AuditData: [72503, 80278, 83502] },
     { id: 48, title: 'Total Stockholder\'s Equity', AuditData: [195338, 196759, 196775], expandableRows: [
-      { id: 49, title: 'Equity Capital', AuditData: [170000, 170000, 170000] },
-      { id: 50, title: 'Retained Earnings', AuditData: [25338, 26759, 26775] },
-    ],
+        { id: 49, title: 'Equity Capital', AuditData: [170000, 170000, 170000] },
+        { id: 50, title: 'Retained Earnings', AuditData: [25338, 26759, 26775] },
+      ],
     },
     { id: 51, title: 'TOTAL LIABILITIES AND EQUITY', AuditData: [267841, 277037, 280277] },
   ];
@@ -218,21 +218,6 @@ const FinancialCompilation = () => {
         .map((row) => (
           <React.Fragment key={row.id}>
             <tr>
-              <th>
-                {row.expandableRows && (
-                  <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
-                    {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
-                  </Button>
-                )}
-                {row.title}
-              </th>
-
-              {row.AuditData.map((cell, idx) => (
-                  <th key={idx} className="centered-cell" style={{ backgroundColor: 'lightgrey' }}>
-                    {formatValue(row.id, cell)}
-                  </th>
-                ))}
-
               <td>
                 <Form onSubmit={handleFormSubmit}>
                   <Form.Check
@@ -268,11 +253,25 @@ const FinancialCompilation = () => {
                   )}
                 </Form>
               </td>
+              <th>
+                {row.expandableRows && (
+                  <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
+                    {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
+                  </Button>
+                )}
+                {row.title}
+              </th>
+
+              {row.AuditData.map((cell, idx) => (
+                <th key={idx} className="centered-cell" style={{ backgroundColor: 'lightgrey' }}>
+                  {formatValue(row.id, cell)}
+                </th>
+              ))}
 
               {generateForecastData(row).map((cell, idx) => (
-                  <th key={idx} className="centered-cell">
-                    {formatValue(row.id, cell)}
-                  </th>
+                <th key={idx} className="centered-cell">
+                  {formatValue(row.id, cell)}
+                </th>
               ))}
               <td className="text-end">
                 <GraphUp
@@ -351,7 +350,7 @@ const FinancialCompilation = () => {
           <Table striped bordered hover className="mb-0">
             <Header forecastYears={forecastYears} />
             <tbody>
-              {renderTable(incomeStatementData)}
+            {renderTable(incomeStatementData)}
             </tbody>
           </Table>
         </Tab>
@@ -359,7 +358,7 @@ const FinancialCompilation = () => {
           <Table striped bordered hover className="mb-0">
             <Header forecastYears={forecastYears} />
             <tbody>
-              {renderTable(balanceSheetData)}
+            {renderTable(balanceSheetData)}
             </tbody>
           </Table>
         </Tab>
@@ -402,26 +401,25 @@ const Header = ({ forecastYears }) => {
 
   return (
     <thead>
-      <tr className="text-center">
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <th style={{ border: '1px solid #628fca' }}>Metric</th>
-        <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>Actual Data</th>
-        <th colSpan="2" style={{ border: '1px solid #628fca' }}>Forecast Type</th>
-        <th colSpan={forecastYears} style={{ border: '1px solid #628fca' }}>Forecast Data</th>
-      </tr>
-      <tr className="text-center">
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <th colSpan="1" style={{ backgroundColor: '#628fca' }} />
+    <tr className="text-center">
+      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+      <th style={{ border: '1px solid #628fca' }}>Forecast Type</th>
+      <th style={{ border: '1px solid #628fca' }}>Metric</th>
+      <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>Actual Data</th>
+      <th colSpan={forecastYears} style={{ border: '1px solid #628fca' }}>Forecast Data</th>
+      <th />
+    </tr>
+    <tr className="text-center">
+      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+      <th colSpan="2" style={{ backgroundColor: '#628fca' }} />
 
-        {actualYears.map((year, idx) => (
-          <th key={idx} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>{year}</th>
-        ))}
-        <th colSpan="1" style={{ backgroundColor: '#628fca' }} />
-        {futureYears.map((year, idx) => (
-          <th key={idx} style={{ backgroundColor: '#628fca' }}>{year}</th>
-        ))}
-        <th style={{ backgroundColor: '#628fca' }}/>
-      </tr>
+      {actualYears.map((year, idx) => (
+        <th key={idx} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>{year}</th>
+      ))}
+      {futureYears.map((year, idx) => (
+        <th key={idx} style={{ backgroundColor: '#628fca' }}>{year}</th>
+      ))}
+    </tr>
     </thead>
   );
 };
