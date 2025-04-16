@@ -252,7 +252,7 @@ export const WorkpaperS5 = {
 
 export const WorkpaperS5A = {
   id: 'S5A',
-  name: 'Scenario #5A - Loan Calculator',
+  name: 'Loan Calculator I',
   inputs: {
     scenarioName: 'Loan Analysis',
     loanAmount: 5000,
@@ -317,7 +317,7 @@ export const WorkpaperS5A = {
 
 export const WorkpaperS5B = {
   id: 'S5B',
-  name: 'Scenario #5B - Simple Loan Calculator',
+  name: 'Loan Calculator II',
   inputs: {
     scenarioName: 'Loan Analysis',
     loanAmount: 5000,
