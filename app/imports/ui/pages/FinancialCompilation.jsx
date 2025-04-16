@@ -218,6 +218,21 @@ const FinancialCompilation = () => {
         .map((row) => (
           <React.Fragment key={row.id}>
             <tr>
+              <th>
+                {row.expandableRows && (
+                  <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
+                    {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
+                  </Button>
+                )}
+                {row.title}
+              </th>
+
+              {row.AuditData.map((cell, idx) => (
+                  <th key={idx} className="centered-cell" style={{ backgroundColor: 'lightgrey' }}>
+                    {formatValue(row.id, cell)}
+                  </th>
+                ))}
+
               <td>
                 <Form onSubmit={handleFormSubmit}>
                   <Form.Check
@@ -253,20 +268,6 @@ const FinancialCompilation = () => {
                   )}
                 </Form>
               </td>
-              <th>
-                {row.expandableRows && (
-                  <Button variant="link" className="p-0 mx-1 border-0 bg-transparent" onClick={() => toggleRow(row.id)}>
-                    {expandedRows[row.id] ? <CaretDownFill /> : <CaretRightFill />}
-                  </Button>
-                )}
-                {row.title}
-              </th>
-
-              {row.AuditData.map((cell, idx) => (
-                  <th key={idx} className="centered-cell" style={{ backgroundColor: 'lightgrey' }}>
-                    {formatValue(row.id, cell)}
-                  </th>
-                ))}
 
               {generateForecastData(row).map((cell, idx) => (
                   <th key={idx} className="centered-cell">
@@ -403,22 +404,23 @@ const Header = ({ forecastYears }) => {
     <thead>
       <tr className="text-center">
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <th style={{ border: '1px solid #628fca' }}>Forecast Type</th>
         <th style={{ border: '1px solid #628fca' }}>Metric</th>
         <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>Actual Data</th>
+        <th colSpan="2" style={{ border: '1px solid #628fca' }}>Forecast Type</th>
         <th colSpan={forecastYears} style={{ border: '1px solid #628fca' }}>Forecast Data</th>
-        <th />
       </tr>
       <tr className="text-center">
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <th colSpan="2" style={{ backgroundColor: '#628fca' }} />
+        <th colSpan="1" style={{ backgroundColor: '#628fca' }} />
 
         {actualYears.map((year, idx) => (
           <th key={idx} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>{year}</th>
         ))}
+        <th colSpan="1" style={{ backgroundColor: '#628fca' }} />
         {futureYears.map((year, idx) => (
           <th key={idx} style={{ backgroundColor: '#628fca' }}>{year}</th>
         ))}
+        <th style={{ backgroundColor: '#628fca' }}/>
       </tr>
     </thead>
   );
