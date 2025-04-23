@@ -23,6 +23,7 @@ import WorkPapers from '../pages/WorkPapers';
 import FinancialCompilation from '../pages/FinancialCompilation';
 import AuditData from '../pages/AuditData';
 import Admin from '../pages/Admin';
+import Visualization from '../pages/Visualization';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/workpapers" element={<ProtectedRoute><WorkPapers /></ProtectedRoute>} />
           <Route path="/stress-test" element={<ProtectedRoute><StressTest /></ProtectedRoute>} />
           <Route path="/graph-placeholder" element={<ProtectedRoute><GraphPlaceholder /></ProtectedRoute>} />
+          <Route path="/visualization" element={<ProtectedRoute><Visualization /></ProtectedRoute>} />
           <Route path="/manage-database" element={<AdminProtectedRoute ready={ready}><ManageDatabase /></AdminProtectedRoute>} />
           <Route path="/audit-data" element={<AuditProtectedRoute ready={ready}><AuditData /></AuditProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />

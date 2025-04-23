@@ -21,53 +21,13 @@ const NavBar = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
         <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
-          <Nav className="me-auto justify-content-start">
+          <Nav className="mx-auto justify-content-evenly">
             {currentUser ? ([
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_FINANCIAL_COMPILATION} as={NavLink} to="/financial-compilation" key="financial-compilation">Financial Compilation</Nav.Link>,
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_STRESS_TEST_MODEL} as={NavLink} to="/stress-test" key="stress-test">Stress Test</Nav.Link>,
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_SUSTAINABILITY_MODEL} as={NavLink} to="/sustainability-model" key="sustainability-model">Sustainability Model</Nav.Link>,
-              <NavDropdown
-                title="Workpapers"
-                id={COMPONENT_IDS.NAVBAR_WORKPAPERS}
-                key="workpapers"
-              >
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpapers"
-                  key="workpaper1"
-                >
-                  Work Paper 1
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper2"
-                  key="workpaper2"
-                >
-                  Work Paper 2
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper3"
-                  key="workpaper3"
-                >
-                  Work Paper 3
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper4"
-                  key="workpaper4"
-                >
-                  Work Paper 4
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={NavLink}
-                  to="/workpaper5"
-                  key="workpaper5"
-                >
-                  Work Paper 5
-                </NavDropdown.Item>
-              </NavDropdown>,
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_GRAPH_PLACEHOLDER} as={NavLink} to="/graph-placeholder" key="graph-placeholder">Graph Placeholder</Nav.Link>,
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_FINANCIAL_COMPILATION} as={NavLink} to="/financial-compilation" key="financial-compilation" className="mx-3">Financial Compilation</Nav.Link>,
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_STRESS_TEST_MODEL} as={NavLink} to="/stress-test" key="stress-test" className="mx-3">Stress Test</Nav.Link>,
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_SUSTAINABILITY_MODEL} as={NavLink} to="/sustainability-model" key="sustainability-model" className="mx-3">Sustainability Model</Nav.Link>,
+              <Nav.Link as={NavLink} to="/workpapers" key="workpapers" className="mx-3">Work Paper</Nav.Link>,
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_VISUALIZATION} as={NavLink} to="/visualization" key="visualization" className="mx-3">Visualization</Nav.Link>,
             ]) : ''}
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN, ROLE.EXECUTIVE]) ? (
               [<Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Admin</Nav.Link>,

@@ -4,6 +4,7 @@ import '/imports/startup/server/Mongo';
 // be sure to import the methods.
 import '../imports/api/base/BaseCollection.methods';
 import '../imports/api/user/UserProfileCollection.methods';
+import '../imports/api/workpapers/Workpapers';
 // quick testfix for handling weird meteor fetches as html instead of text for csv files
 import { WebApp } from 'meteor/webapp';
 
