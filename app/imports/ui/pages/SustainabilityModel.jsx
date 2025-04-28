@@ -24,6 +24,12 @@ const SustainabilityModel = () => {
     7: [0, 0, 0, 0, 0, 3010, 6201, 9585, 13172, 16974, 21006, 25281],
     8: [79, 242, 495, 842, 1289, 1843, 2509, 3295, 4207, 5254, 6443, 7783],
     9: [227, 582, 1071, 1810, 2594, 3532, 4632, 5900, 7343, 8970, 10786, 12799],
+    20: [0, 0, 0, 0, 0, 3010, 6201, 9585, 13172, 16974, 21006, 25281],
+    21: [79, 242, 495, 842, 1289, 1843, 2509, 3295, 4207, 5254, 6443, 7783],
+    22: [215, 323, 429, 534, 637, 738, 837, 934, 1027, 1117, 1204, 1287],
+    44: [900, 1892, 2982, 4180, 5491, 6926, 8494, 10204, 12067, 14094, 16298, 18691],
+    45: [3443, 3495, 3547, 3601, 3655, 3709, 3765, 3821, 3879, 3937, 3996, 4056],
+    54: [215, 323, 429, 534, 637, 738, 837, 934, 1027, 1117, 1204, 1287],
   };
 
   const [incomeStatementData, setIncomeStatementData] = useState([
@@ -61,15 +67,15 @@ const SustainabilityModel = () => {
     { id: 23, title: 'Operating Expenses %', data: [34.4, 33.8, 33.6, 32.9, 32.5, 32.0, 31.5, 31.1, 30.6, 30.1, 29.7, 29.3] },
     { id: 24, title: 'Profit (loss) from Operations', data: [52589, 52564, 52930, 52694, 52729, 52785, 52736, 52750, 52757, 52748, 52752, 52752] },
     { id: 25, title: 'Profit (loss) from Operations %', data: [34.4, 33.8, 33.6, 32.9, 32.5, 32.0, 31.5, 31.1, 30.6, 30.1, 29.7, 29.3] },
-    { id: 26, title: 'Total Other Income (expense)', data: [],
-      expandableRows: [
-        { id: 27, title: 'Interest Income', data: [] },
-        { id: 28, title: 'Interest Expense', data: [] },
-        { id: 29, title: 'Gain (loss) on disposal of assets', data: [] },
-        { id: 30, title: 'Other income (expense)', data: [] },
-      ],
-    },
-    { id: 31, title: 'Total other income (expense) %', data: [] },
+    // { id: 26, title: 'Total Other Income (expense)', data: [],
+    //   expandableRows: [
+    //     { id: 27, title: 'Interest Income', data: [] },
+    //     { id: 28, title: 'Interest Expense', data: [] },
+    //     { id: 29, title: 'Gain (loss) on disposal of assets', data: [] },
+    //     { id: 30, title: 'Other income (expense)', data: [] },
+    //   ],
+    // },
+    // { id: 31, title: 'Total other income (expense) %', data: [] },
     { id: 32, title: 'Income (loss) before income taxes', data: [35668, 37705, 37733, 37035, 37491, 37419, 37315, 37408, 37381, 37368, 37386, 37378] },
     { id: 33, title: 'Pre-tax income %', data: [23.3, 24.3, 23.9, 23.1, 23.1, 22.7, 22.3, 22.0, 21.7, 21.4, 21.1, 20.7] },
     { id: 34, title: 'Net Income (loss)', data: [25338, 26759, 26775, 26291, 26608, 26558, 26486, 26551, 26532, 26523, 26535, 26530],
@@ -80,7 +86,7 @@ const SustainabilityModel = () => {
     { id: 36, title: 'Net Income (loss) %', data: [16.6, 17.2, 17.0, 16.4, 16.4, 16.1, 15.8, 15.6, 15.4, 15.2, 14.9, 14.7] },
   ]);
 
-  const assetsData = [
+  const [assetsData, setAssetsData] = useState([
     { id: 37, title: 'Total Current Assets', data: [205752, 207633, 207272, 206886, 207264, 207140, 207097, 207167, 207135, 207133, 207145, 207137],
       expandableRows: [
         { id: 38, title: 'Cash and cash equivalents', data: [188111, 189577, 189079, 188922, 189193, 189065, 189060, 189106, 189077, 189081, 189088, 189082] },
@@ -97,9 +103,9 @@ const SustainabilityModel = () => {
       ],
     },
     { id: 46, title: 'TOTAL ASSETS', data: [267841, 277037, 280277, 275052, 277455, 277595, 276701, 277250, 277182, 277044, 277159, 277128] },
-  ];
+  ]);
 
-  const liabilitiesEquityData = [
+  const [liabilitiesEquityData, setLiabilitiesEquityData] = useState([
     { id: 47, title: 'Total Current Liabilities (due within 1 year)', data: [14169, 14167, 13687, 14008, 13954, 13883, 13948, 13928, 13920, 13932, 13927, 13926],
       expandableRows: [
         { id: 48, title: 'Accounts payable', data: [5283, 5406, 5453, 5381, 5413, 5416, 5403, 5411, 5410, 5408, 5410, 5409] },
@@ -122,66 +128,121 @@ const SustainabilityModel = () => {
       ],
     },
     { id: 59, title: 'TOTAL LIABILITIES AND EQUITY', data: [267841, 277037, 280277, 275052, 277455, 277595, 276701, 277250, 277182, 277044, 277159, 277128] },
-  ];
+  ]);
 
-  const calculateNetSales = (rows) => {
-    // Find the revenue row inside expandableRows
-    const revenueRow = rows.flatMap(row => row.expandableRows || []).find(row => row.id === 2);
-
-    if (!revenueRow) return Array(12).fill(0); // Prevent errors if revenue is missing
-
+  const updateTotalRows = (rows, totalRow, lastAddition, lastDeduction) => {
+    let totalAdditions = Array(12).fill(0);
     let totalDeductions = Array(12).fill(0);
 
-    // Sum all scenario effect rows (they have IDs > 2)
     rows.flatMap(row => row.expandableRows || []).forEach((row) => {
-      if (row.id > 2 && row.id < 10) { // Assuming deductions start at ID 3
+      if (row.id >= (totalRow + 1) && row.id <= lastAddition) {
+        totalAdditions = totalAdditions.map((value, i) => value + (row.data[i] || 0));
+      }
+      if (row.id >= (lastAddition + 1) && row.id <= lastDeduction) {
         totalDeductions = totalDeductions.map((value, i) => value + (row.data[i] || 0));
       }
     });
 
-    // Subtract deductions from revenue to get Net Sales
-    return revenueRow.data.map((value, i) => value - totalDeductions[i]);
+    const updatedOperatingExpenses = totalAdditions.map((value, i) => value - totalDeductions[i]);
+
+    return rows.map(row => {
+      if (row.id === totalRow) {
+        return { ...row, data: updatedOperatingExpenses };
+      }
+      return row;
+    });
   };
 
-  // Function to toggle scenario activation
+  // Function to toggle scenario data and update totals
   const toggleScenario = (scenarioId) => {
     setActiveScenarios((prev) => {
-      const newActiveState = { ...prev, [scenarioId]: !prev[scenarioId] }; // Toggle active state
+      const newState = { ...prev, [scenarioId]: !prev[scenarioId] };
 
-      // Update Income Statement Data separately
       setIncomeStatementData((prevData) => {
-        const updatedRows = prevData.map((section) => {
-          if (section.expandableRows) {
-            return {
-              ...section,
-              expandableRows: section.expandableRows.map((row) => {
-                if (row.id === scenarioId) {
-                  return {
-                    ...row,
-                    data: newActiveState[scenarioId] ? scenarioData[scenarioId] || [] : [],
-                  };
-                }
-                return row;
-              }),
-            };
-          }
-          return section;
-        });
+        let updatedData = prevData.map((row) => {
+          if (!row.expandableRows) return row;
 
-        // Update Net Sales in the "Net Sales" row (ID = 1)
-        return updatedRows.map((section) => {
-          if (section.id === 1) {
-            return {
-              ...section,
-              data: calculateNetSales(updatedRows),
-            };
-          }
-          return section;
+          const updatedExpandable = row.expandableRows.map((subRow) => {
+            if (subRow.id === scenarioId) {
+              return {
+                ...subRow,
+                data: newState[scenarioId] ? scenarioData[scenarioId] : [],
+              };
+            }
+            return subRow;
+          });
+
+          return {
+            ...row,
+            expandableRows: updatedExpandable,
+          };
         });
+        // Update Net Sales row
+        updatedData = updateTotalRows(updatedData, 1, 2, 9);
+        // Update Total Operating Expenses row
+        updatedData = updateTotalRows(updatedData, 15, 19, 22);
+
+        return updatedData;
       });
 
-      return newActiveState; // Correctly return the updated active scenario state
+      // You can update assets and liabilities separately as before
+      setAssetsData((prevData) => {
+        let updatedData = prevData.map((row) => {
+          if (!row.expandableRows) return row;
+
+          const updatedExpandable = row.expandableRows.map((subRow) => {
+            if (subRow.id === scenarioId) {
+              return {
+                ...subRow,
+                data: newState[scenarioId] ? scenarioData[scenarioId] : [],
+              };
+            }
+            return subRow;
+          });
+
+          return {
+            ...row,
+            expandableRows: updatedExpandable,
+          };
+        });
+        // Update total long-term assets
+        updatedData = updateTotalRows(updatedData, 41, 43, 45);
+
+        return updatedData;
+      });
+
+      setLiabilitiesEquityData((prevData) => {
+        let updatedData = prevData.map((row) => {
+          if (!row.expandableRows) return row;
+
+          const updatedExpandable = row.expandableRows.map((subRow) => {
+            if (subRow.id === scenarioId) {
+              return {
+                ...subRow,
+                data: newState[scenarioId] ? scenarioData[scenarioId] : [],
+              };
+            }
+            return subRow;
+          });
+
+          return {
+            ...row,
+            expandableRows: updatedExpandable,
+          };
+        });
+        // Update total long-term assets
+        updatedData = updateTotalRows(updatedData, 51, 53, 54);
+
+        return updatedData;
+      });
+
+      return newState;
     });
+  };
+
+  const toggleScenarioGroup = (firstID, secondID) => {
+    toggleScenario(firstID);
+    toggleScenario(secondID);
   };
 
   const renderTable = (dataset) => (
@@ -236,7 +297,7 @@ const SustainabilityModel = () => {
               value={1}
               variant="outline-success"
               checked={!!activeScenarios[3]}
-              onChange={() => toggleScenario(3)}
+              onChange={() => toggleScenarioGroup(3, 44)}
             >
               Stress Effect
             </ToggleButton>
@@ -257,7 +318,7 @@ const SustainabilityModel = () => {
               id="tbg-check-3"
               value={1}
               variant="outline-success"
-              onChange={() => toggleScenario(5)}
+              onChange={() => toggleScenarioGroup(5, 45)}
             >
               Stress Effect
             </ToggleButton>
@@ -277,7 +338,7 @@ const SustainabilityModel = () => {
               id="tbg-check-5"
               value={1}
               variant="outline-success"
-              onChange={() => toggleScenario(7)}
+              onChange={() => toggleScenarioGroup(7, 20)}
             >
               Stress Effect
             </ToggleButton>
@@ -292,7 +353,7 @@ const SustainabilityModel = () => {
               id="tbg-check-7"
               value={1}
               variant="outline-success"
-              onChange={() => toggleScenario(8)}
+              onChange={() => toggleScenarioGroup(8, 21)}
             >
               Stress Effect
             </ToggleButton>
@@ -308,7 +369,12 @@ const SustainabilityModel = () => {
         </Col>
         <Col>
           <ToggleButtonGroup type="checkbox" name="Stress5">
-            <ToggleButton id="tbg-check-9" value={1} variant="outline-success">
+            <ToggleButton
+              id="tbg-check-9"
+              value={1}
+              variant="outline-success"
+              onChange={() => toggleScenarioGroup(22, 54)}
+            >
               Stress Effect
             </ToggleButton>
             <ToggleButton id="tbg-check-10" value={2} variant="outline-success">
