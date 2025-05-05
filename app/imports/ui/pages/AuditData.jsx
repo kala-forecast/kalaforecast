@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Table, Row, Col, Form, Button } from 'react-bootstrap';
+import {DashCircle, PlusCircle} from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import {DashCircle, PlusCircle} from "react-bootstrap-icons";
 
 const FinancialCompilation = () => {
   const [years, setYears] = useState([2022, 2023, 2024]);
