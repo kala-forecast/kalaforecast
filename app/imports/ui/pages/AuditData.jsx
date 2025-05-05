@@ -1,9 +1,33 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
-import { Container, Table, Row, Col, Form } from 'react-bootstrap';
+import { Container, Table, Row, Col, Form, Button } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import {DashCircle, PlusCircle} from "react-bootstrap-icons";
 
 const FinancialCompilation = () => {
+  const [years, setYears] = useState([2022, 2023, 2024]);
+
+  const addColumnToData = (data) => data.map(row => ({
+    ...row,
+    AuditData: [...row.AuditData, '-'],
+    expandableRows: row.expandableRows
+      ? row.expandableRows.map(sub => ({
+        ...sub,
+        AuditData: [...sub.AuditData, '-'],
+      }))
+      : undefined,
+  }));
+
+  const removeColumnFromData = (data) => data.map(row => ({
+    ...row,
+    AuditData: row.AuditData.slice(0, -1),
+    expandableRows: row.expandableRows
+      ? row.expandableRows.map(sub => ({
+        ...sub,
+        AuditData: sub.AuditData.slice(0, -1),
+      }))
+      : undefined,
+  }));
+
   const [incomeStatementData, setIncomeStatementData] = useState([
     { id: 1, title: 'Net Sales', AuditData: [131345, 142341, 150772],
       expandableRows: [
@@ -89,6 +113,22 @@ const FinancialCompilation = () => {
     { id: 45, title: 'TOTAL LIABILITIES AND EQUITY', AuditData: [267841, 277037, 280277] },
   ]);
 
+  const addYear = () => {
+    const nextYear = Math.max(...years) + 1;
+    setYears([...years, nextYear]);
+    setIncomeStatementData(addColumnToData(incomeStatementData));
+    setAssetsData(addColumnToData(assetsData));
+    setLiabilitiesEquityData(addColumnToData(liabilitiesEquityData));
+  };
+
+  const removeYear = () => {
+    if (years.length <= 1) return;
+    setYears(years.slice(0, -1));
+    setIncomeStatementData(removeColumnFromData(incomeStatementData));
+    setAssetsData(removeColumnFromData(assetsData));
+    setLiabilitiesEquityData(removeColumnFromData(liabilitiesEquityData));
+  };
+
   const handleInputChange = (sectionSetter, sectionData, rowId, cellIndex, isExpandable = false, expandableIndex = null) => (e) => {
     const value = e.target.value.trim() === '' ? '-' : e.target.value;
     const updatedData = sectionData.map((row) => {
@@ -111,7 +151,6 @@ const FinancialCompilation = () => {
       }
       return row;
     });
-
     sectionSetter(updatedData);
   };
 
@@ -155,14 +194,22 @@ const FinancialCompilation = () => {
   return (
     <Container id={PAGE_IDS.FINANCIAL_COMPILATION} className="py-3" align="center">
       <h1>Audit Data</h1>
+      <div className="d-flex justify-content-end mb-3">
+        <Button variant="outline-primary" className="me-2" onClick={addYear}>
+          <PlusCircle /> Add Year
+        </Button>
+        <Button variant="outline-danger" onClick={removeYear}>
+          <DashCircle /> Remove Year
+        </Button>
+      </div>
       <Row>
         <Col style={{ width: '50%' }}>
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th colSpan="4" className="text-center" style={{ backgroundColor: 'lightblue' }}>INCOME STATEMENT</th>
+                <th colSpan={years.length + 1} className="text-center" style={{ backgroundColor: 'lightblue' }}>INCOME STATEMENT</th>
               </tr>
-              <Header />
+              <Header years={years} />
             </thead>
             <tbody>
               {renderTable(incomeStatementData, setIncomeStatementData)}
@@ -173,17 +220,17 @@ const FinancialCompilation = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th colSpan="4" className="text-center" style={{ backgroundColor: 'lightblue' }}>BALANCE SHEET</th>
+                <th colSpan={years.length + 1} className="text-center" style={{ backgroundColor: 'lightblue' }}>BALANCE SHEET</th>
               </tr>
-              <Header />
+              <Header years={years} />
             </thead>
             <tbody>
               <tr>
-                <th colSpan="4" className="text-center" style={{ backgroundColor: 'lightgrey' }}>ASSETS</th>
+                <th colSpan={years.length + 1} className="text-center" style={{ backgroundColor: 'lightgrey' }}>ASSETS</th>
               </tr>
               {renderTable(assetsData, setAssetsData)}
               <tr>
-                <th colSpan="4" className="text-center" style={{ backgroundColor: 'lightgrey' }}>LIABILITIES AND EQUITY</th>
+                <th colSpan={years.length + 1} className="text-center" style={{ backgroundColor: 'lightgrey' }}>LIABILITIES AND EQUITY</th>
               </tr>
               {renderTable(liabilitiesEquityData, setLiabilitiesEquityData)}
             </tbody>
@@ -194,12 +241,12 @@ const FinancialCompilation = () => {
   );
 };
 
-const Header = () => (
+const Header = ({ years }) => (
   <tr className="text-center">
     <th>Audit Data</th>
-    <th>2022</th>
-    <th>2023</th>
-    <th>2024</th>
+    {years.map((year, index) => (
+      <th key={index}>{year}</th>
+    ))}
   </tr>
 );
 
