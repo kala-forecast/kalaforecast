@@ -1,0 +1,78 @@
+/* Container padding for better vertical spacing */
+#graph-placeholder {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Center the top forecast options */
+.forecast-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Limit the height of the sidebar */
+.sidebar {
+  max-height: 90vh;
+  overflow: visible; /* Remove scrollbars */
+  padding-top: 2rem;
+}
+
+/* Card styling for section grouping */
+.data-card {
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header colors and spacing */
+.data-card .card-header {
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.card-body {
+  padding: 1rem;
+  max-height: 260px;
+}
+
+/* Graph column: maintain height and spacing */
+.chart-container {
+  height: 500px;
+}
+
+/* Multiplier input spacing */
+.multiplier-input {
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+/* Clear all button styling */
+.clear-all-btn {
+  white-space: nowrap;
+}
+
+/* Remove overflow and allow cards + graph to sit side-by-side */
+.sidebar {
+  max-height: none;
+  overflow: visible;
+}
+
+/* Prevent cards from growing too wide */
+.data-card {
+  width: 100%;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart container should stretch to fill remaining space */
+.chart-container {
+  min-height: 60vh;
+  max-height: 90vh;
+  width: 100%;
+  padding-left: 1rem;
+}
