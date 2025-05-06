@@ -4,7 +4,7 @@ import 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { useTracker } from 'meteor/react-meteor-data';
-import { FinancialRecords } from 'imports/api/financial/FinancialRecords';
+import { FinancialRecords } from '/imports/api/financial/FinancialRecords';
 import '../../../client/visualization.css';
 
 const forecastYears = 12;
