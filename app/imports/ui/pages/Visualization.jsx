@@ -1,155 +1,221 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Col, Row, Form } from 'react-bootstrap';
-import 'chart.js/auto'; // changed to just import everything instead
+import { Container, Col, Row, Form, Button, Card } from 'react-bootstrap';
+import 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import { useTracker } from 'meteor/react-meteor-data';
+import { FinancialRecords } from '/imports/api/financial/FinancialRecords';
+import '../../../client/visualization.css';
 
-/**
- * This pretty much is just a line graph test for now
- * @returns a graph using placeholder data, will change to imported data imported and mapped from the FC and SM later
- */
+const forecastYears = 12;
+const years = ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036'];
+
+// Define your own logic for which titles fall into which category
+const INCOME_TITLES = new Set([
+  'Net Sales',
+  'Cost of Goods Sold',
+  'Gross Profit',
+  'Total Operating Expenses',
+  'Profit (loss) from Operations',
+  'Income (loss) before income taxes',
+  'Net Income (loss)',
+]);
+
+const BALANCE_SHEET_TITLES = new Set([
+  'Total Current Assets',
+  'Total Long-Term Assets',
+  'Total Assets',
+  'Total Current Liabilities (due within 1 year)',
+  'Total Long-term Liabilities (due after one year)',
+  'Total Liabilities',
+  "Total Stockholder's Equity",
+  'Total Liabilities and Equity',
+]);
 
 const Visualization = () => {
+  const records = useTracker(() => FinancialRecords.find().fetch(), []);
 
-  const graphData = [
-    { id: 0, title: 'Net Sales', data: [153034, 155329, 157659, 160024, 162424, 164861, 167334, 169844, 172391, 174977, 177602, 180266] },
-    { id: 1, title: 'Cost of Goods Sold', data: [53229, 54598, 55046, 54291, 54645, 54660, 54532, 54612, 54602, 54582, 54599, 54594] },
-    { id: 2, title: 'Gross Profit', data: [94894, 93658, 92624, 91847, 89090, 85550, 80866, 74500, 66548, 56700, 44659, 26327] },
-    { id: 3, title: 'Total Operating Expenses', data: [52589, 52564, 52930, 52694, 52729, 52785, 52736, 52750, 52757, 52748, 52752, 52752] },
-    { id: 4, title: 'Profit (loss) from Operations', data: [52589, 52564, 52930, 52694, 52729, 52785, 52736, 52750, 52757, 52748, 52752, 52752] },
-    { id: 5, title: 'Income (loss) before income taxes', data: [35668, 37705, 37733, 37035, 37491, 37419, 37315, 37408, 37381, 37368, 37386, 37378] },
-    { id: 6, title: 'Net Income (loss)', data: [25338, 26759, 26775, 26291, 26608, 26558, 26486, 26551, 26532, 26523, 26535, 26530] },
-    { id: 7, title: 'Total Current Assets', data: [205752, 207633, 207272, 206886, 207264, 207140, 207097, 207167, 207135, 207133, 207145, 207137] },
-    { id: 8, title: 'Total Long-Term Assets', data: [62089, 69404, 73005, 68166, 70192, 70454, 69604, 70083, 70047, 69911, 70014, 69991] },
-    { id: 9, title: 'TOTAL ASSETS', data: [267841, 277037, 280277, 275052, 277455, 277595, 276701, 277250, 277182, 277044, 277159, 277128] },
-    { id: 10, title: 'Total Current Liabilities (due within 1 year)', data: [14169, 14167, 13687, 14008, 13954, 13883, 13948, 13928, 13920, 13932, 13927, 13926] },
-    { id: 11, title: 'Total Long-term Liabilities (due after one year)', data: [58333, 66111, 69815, 64753, 66893, 67154, 66267, 66771, 66730, 66589, 66697, 66672] },
-    { id: 12, title: 'Total Liabilities', data: [72503, 80278, 83502, 78761, 80847, 81037, 80215, 80699, 80650, 80521, 80624, 80598] },
-    { id: 13, title: 'Total Stockholder\'s Equity', data: [195338, 196759, 196775, 196291, 196608, 196558, 196486, 196551, 196532, 196523, 196535, 196530] },
-    { id: 14, title: 'TOTAL LIABILITIES AND EQUITY', data: [267841, 277037, 280277, 275052, 277455, 277595, 276701, 277250, 277182, 277044, 277159, 277128] },
-  ];
-
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [calculationType, setCalculationType] = useState('option1');
+  const [multiplier, setMultiplier] = useState(1.5);
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
-  const [goodForecast, setGoodForecast] = useState();
+  const generateForecastData = (row) => {
+    const allValues = [...row.auditData];
 
-  const [yLabel, setYLabel] = useState();
+    if (calculationType === 'option1') {
+      const forecasts = [];
+      for (let i = 0; i < forecastYears; i++) {
+        const recent = allValues.slice(-3);
+        const avg = recent.reduce((sum, val) => sum + val, 0) / recent.length;
+        forecasts.push(Math.round(avg));
+        allValues.push(avg);
+      }
+      return forecasts;
+    }
 
-  const years = ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036'];
+    if (calculationType === 'option2') {
+      const forecasts = [];
+      let lastValue = allValues[allValues.length - 1];
+      for (let i = 0; i < forecastYears; i++) {
+        lastValue *= 1 + multiplier / 100;
+        forecasts.push(Math.round(lastValue));
+      }
+      return forecasts;
+    }
 
-  useEffect(() => {
-    setChartData({
-      labels: years,
-      datasets: [
-        {
-          label: 'Predicted Forecast',
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
-          borderWidth: 1,
-          data: goodForecast,
-        },
-      ],
-    });
-  }, [goodForecast]);
-
-  const changeGraph = (rowID) => {
-    setGoodForecast(graphData[rowID].data);
-    setYLabel(graphData[rowID].title);
+    return Array(forecastYears).fill('');
   };
 
-  const options = {
+  const toggleRowSelection = (row) => {
+    setSelectedRows((prev) =>
+      prev.find((r) => r.id === row.id)
+        ? prev.filter((r) => r.id !== row.id)
+        : [...prev, row]
+    );
+  };
+
+  useEffect(() => {
+    if (selectedRows.length === 0) {
+      setChartData({ labels: years, datasets: [] });
+      return;
+    }
+
+    const datasets = selectedRows.map((row) => ({
+      label: row.title,
+      data: generateForecastData(row),
+      borderColor: `hsl(${(row.id * 40) % 360}, 70%, 50%)`,
+      backgroundColor: `hsla(${(row.id * 40) % 360}, 70%, 50%, 0.4)`,
+      borderWidth: 2,
+    }));
+
+    setChartData({ labels: years, datasets });
+  }, [selectedRows, calculationType, multiplier]);
+
+  const chartOptions = {
     responsive: true,
     plugins: {
-      legend: {
-        position: 'top',
-      },
+      legend: { position: 'top' },
       tooltip: {
         mode: 'index',
         intersect: false,
         callbacks: {
-          label: function (context) {
-            let label = context.dataset.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
-            }
-            return label;
+          label: (context) => {
+            const label = context.dataset.label || '';
+            const value = context.parsed.y;
+            return `${label}: ${value?.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            })}`;
           },
         },
       },
     },
-
     scales: {
       x: {
-        ticks: {
-          font: {
-            size: 12,
-            weight: 'bold', // set to bold cuz normal font too hard to see
-          },
-          padding: 10, // padding so the value ticks don't smash into the graph/x label
-        },
         title: {
-          font: {
-            size: 15,
-            weight: 'bold', // set to bold cuz normal font too hard to see
-            padding: 20,
-          },
           display: true,
           text: 'Forecast years',
+          font: { size: 14, weight: 'bold' },
         },
+        ticks: { font: { size: 12, weight: 'bold' }, padding: 10 },
       },
       y: {
         ticks: {
-          callback: function (value) {
-            return `${value.toLocaleString(
-              'en-US',
-              {
-                style: 'currency',
-                currency: 'USD',
-              },
-            )}`; // y-axis currency formatting
-          },
-          min: 0,
-          maxTicksLimit: 6,
+          callback: (value) =>
+            `${value.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            })}`,
         },
         title: {
-          font: {
-            size: 15,
-            weight: 'bold', // set to bold cuz normal font too hard to see
-          },
           display: true,
-          text: yLabel,
+          text: 'Forecasted Value',
+          font: { size: 14, weight: 'bold' },
           padding: 20,
         },
       },
     },
-
   };
 
+  const renderRecordCheckboxes = (records) =>
+    records.map((record) => (
+      <Form.Check
+        key={record.id}
+        type="checkbox"
+        label={record.title}
+        id={`row-${record.id}`}
+        checked={selectedRows.some((r) => r.id === record.id)}
+        onChange={() => toggleRowSelection(record)}
+      />
+    ));
+
+  const incomeRecords = records.filter((r) => INCOME_TITLES.has(r.title));
+  const balanceRecords = records.filter((r) => BALANCE_SHEET_TITLES.has(r.title));
+
   return (
-    <Container id={PAGE_IDS.GRAPH_PLACEHOLDER} className="py-3" align="center">
-      <Row>
-        <Col width="auto" md="3" align="left">
-          <Form>
-            {graphData.map((dataset) => (
-              <div>
-                <Form.Check
-                  label={dataset.title}
-                  name="dataset-selection"
-                  type="radio"
-                  id={dataset.id}
-                  onClick={() => changeGraph(dataset.id)}
-                />
-              </div>
-            ))}
-          </Form>
+    <Container id={PAGE_IDS.GRAPH_PLACEHOLDER} className="py-3">
+      <Row className="mb-4">
+        <Col md={3} className="sidebar my-1">
+          <Card className="data-card">
+            <Card.Header className="bg-primary text-white">Income Data</Card.Header>
+            <Card.Body>{renderRecordCheckboxes(incomeRecords)}</Card.Body>
+          </Card>
+          <Card className="data-card">
+            <Card.Header className="bg-success text-white">Balance Sheet Data</Card.Header>
+            <Card.Body>{renderRecordCheckboxes(balanceRecords)}</Card.Body>
+          </Card>
         </Col>
-        <Col style={{ height: '350px' }}>
-          <Line data={chartData} options={{ ...options, maintainAspectRatio: false }} />
+        <Col md={8}>
+          <div className="forecast-options">
+            <Form.Check
+              inline
+              label="Rolling Average"
+              name="calc-type"
+              type="radio"
+              id="option1"
+              checked={calculationType === 'option1'}
+              onChange={() => setCalculationType('option1')}
+            />
+            <Form.Check
+              inline
+              label="Multiplier"
+              name="calc-type"
+              type="radio"
+              id="option2"
+              checked={calculationType === 'option2'}
+              onChange={() => setCalculationType('option2')}
+            />
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={() => setSelectedRows([])}
+              className="clear-all-btn"
+            >
+              Clear All
+            </Button>
+          </div>
+          {calculationType === 'option2' && (
+            <Form.Group controlId="multiplierInput" className="multiplier-input mb-3">
+              <Form.Label>Multiplier (%)</Form.Label>
+              <Form.Control
+                type="number"
+                value={multiplier}
+                onChange={(e) => setMultiplier(Number(e.target.value))}
+                step="0.1"
+                min="0"
+              />
+            </Form.Group>
+          )}
+          <Col md={9} className="chart-container">
+            <Line data={chartData} options={{ ...chartOptions, maintainAspectRatio: false }}/>
+          </Col>
         </Col>
+
       </Row>
+
+
+
     </Container>
   );
 };
