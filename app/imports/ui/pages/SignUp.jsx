@@ -89,7 +89,7 @@ const SignUp = () => {
           style={{ padding: '2rem' }}
         >
           <div style={{ maxWidth: '350px', width: '100%' }}>
-            <h1 className="mb-3 kala-title">Create new account.</h1>
+            <h1 className="mb-3 kala-title">Create an account.</h1>
             <p>
               Already have an account?&nbsp;
               <Link to="/signin">Login here</Link>.
