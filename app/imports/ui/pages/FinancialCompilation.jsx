@@ -13,7 +13,6 @@ import { FinancialRecords } from '../../api/financial/FinancialRecords';
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 const subscription = Meteor.subscribe('FinancialRecords');
 
-
 if (subscription.ready()) {
   console.log('Subscription ready!');
 } else {
@@ -85,7 +84,7 @@ const FinancialCompilation = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-  }
+  };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -289,7 +288,7 @@ const FinancialCompilation = () => {
           <Table striped bordered hover className="mb-0">
             <Header forecastYears={forecastYears} />
             <tbody>
-            {renderTable(incomeStatementData)}
+              {renderTable(incomeStatementData)}
             </tbody>
           </Table>
         </Tab>
@@ -297,7 +296,7 @@ const FinancialCompilation = () => {
           <Table striped bordered hover className="mb-0">
             <Header forecastYears={forecastYears} />
             <tbody>
-            {renderTable(balanceSheetData)}
+              {renderTable(balanceSheetData)}
             </tbody>
           </Table>
         </Tab>
@@ -340,25 +339,25 @@ const Header = ({ forecastYears }) => {
 
   return (
     <thead>
-    <tr className="text-center">
-      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-      <th style={{ border: '1px solid #628fca' }}>Forecast Type</th>
-      <th style={{ border: '1px solid #628fca' }}>Metric</th>
-      <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>Actual Data</th>
-      <th colSpan={forecastYears} style={{ border: '1px solid #628fca' }}>Forecast Data</th>
-      <th />
-    </tr>
-    <tr className="text-center">
-      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-      <th colSpan="2" style={{ backgroundColor: '#628fca' }} />
+      <tr className="text-center">
+        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+        <th style={{ border: '1px solid #628fca' }}>Forecast Type</th>
+        <th style={{ border: '1px solid #628fca' }}>Metric</th>
+        <th colSpan={actualYears.length} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>Actual Data</th>
+        <th colSpan={forecastYears} style={{ border: '1px solid #628fca' }}>Forecast Data</th>
+        <th />
+      </tr>
+      <tr className="text-center">
+        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+        <th colSpan="2" style={{ backgroundColor: '#628fca' }} />
 
-      {actualYears.map((year, idx) => (
-        <th key={idx} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>{year}</th>
-      ))}
-      {futureYears.map((year, idx) => (
-        <th key={idx} style={{ backgroundColor: '#628fca' }}>{year}</th>
-      ))}
-    </tr>
+        {actualYears.map((year, idx) => (
+          <th key={idx} style={{ backgroundColor: 'lightgrey', border: '1px solid #628fca' }}>{year}</th>
+        ))}
+        {futureYears.map((year, idx) => (
+          <th key={idx} style={{ backgroundColor: '#628fca' }}>{year}</th>
+        ))}
+      </tr>
     </thead>
   );
 };

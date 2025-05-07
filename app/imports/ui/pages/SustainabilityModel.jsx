@@ -1,13 +1,16 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
-import { Container, Button, Table, Tabs, Tab, Row, Col, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
-import { CaretRightFill, CaretDownFill } from 'react-bootstrap-icons';
+import { Container, Button, Table, Tabs, Tab, Row, Col, ToggleButtonGroup, ToggleButton, Modal } from 'react-bootstrap';
+import { CaretRightFill, CaretDownFill, GraphUp } from 'react-bootstrap-icons';
+import { Line } from 'react-chartjs-2';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 const SustainabilityModel = () => {
 
   const [expandedRows, setExpandedRows] = useState({});
   const [activeScenarios, setActiveScenarios] = useState({});
+  const [selectedChartRow, setSelectedChartRow] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const toggleRow = (rowId) => {
     setExpandedRows((prev) => ({
@@ -129,6 +132,15 @@ const SustainabilityModel = () => {
     },
     { id: 59, title: 'TOTAL LIABILITIES AND EQUITY', data: [267841, 277037, 280277, 275052, 277455, 277595, 276701, 277250, 277182, 277044, 277159, 277128] },
   ]);
+
+  const handleShowChart = (row) => {
+    setSelectedChartRow(row);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const updateTotalRows = (rows, totalRow, lastAddition, lastDeduction) => {
     let totalAdditions = Array(12).fill(0);
@@ -262,6 +274,14 @@ const SustainabilityModel = () => {
             {row.data.map((cell, cellIndex) => (
               <th key={cellIndex}>{cell}</th>
             ))}
+            <td className="text-end">
+              <GraphUp
+                className="text-primary"
+                role="button"
+                onClick={() => handleShowChart(row)}
+                style={{ cursor: 'pointer' }}
+              />
+            </td>
           </tr>
 
           {/* Render each hidden row if this row is expanded */}
@@ -412,6 +432,30 @@ const SustainabilityModel = () => {
           </Table>
         </Tab>
       </Tabs>
+      <Modal show={showModal} onHide={handleCloseModal} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedChartRow?.title} Forecast</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedChartRow && (
+            <Line
+              data={{
+                labels: ['2025', '2026', '2027', ...Array.from({ length: 8 }, (_, i) => 2028 + i)],
+                datasets: [
+                  {
+                    label: selectedChartRow.title,
+                    data: selectedChartRow.data,
+                    borderColor: 'rgba(75,192,192,1)',
+                    fill: false,
+                    tension: 0.3,
+                  },
+                ],
+              }}
+              options={{ responsive: true }}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
     </Container>
 
   );

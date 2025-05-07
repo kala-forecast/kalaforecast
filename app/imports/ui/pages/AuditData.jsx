@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Table, Row, Col, Form, Button } from 'react-bootstrap';
-import {DashCircle, PlusCircle} from 'react-bootstrap-icons';
+import { DashCircle, PlusCircle } from 'react-bootstrap-icons';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 const FinancialCompilation = () => {
